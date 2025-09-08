@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"wanderwallet/initializers"
 	"wanderwallet/internal/controllers"
 	"wanderwallet/internal/middleware"
@@ -71,5 +72,7 @@ func main() {
 			categoryRoutes.DELETE("/:id", categoryController.DeleteCategoryByID)
 		}
 	}
-	r.Run()
+	if err := r.Run(); err != nil {
+		log.Fatalf("Server run failed: %v", err)
+	}
 }

@@ -14,7 +14,7 @@ import (
 
 func TestMain(m *testing.M) {
 	// Устанавливаем тестовый SECRET_KEY
-	os.Setenv("SECRET_KEY", "test-secret-key-for-testing")
+	os.Setenv("SECRET_KEY", "test-secret-key-for-testing") //nolint:errcheck // тестовая инициализация, ошибка не критична
 	code := m.Run()
 	os.Exit(code)
 }

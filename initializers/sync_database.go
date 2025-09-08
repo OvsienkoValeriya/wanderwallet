@@ -6,12 +6,14 @@ import (
 )
 
 func SyncDatabase() {
-	DB.AutoMigrate(
+	if err := DB.AutoMigrate(
 		&models.User{},
 		&models.Travel{},
 		&models.Expense{},
 		&models.Category{},
-	)
+	); err != nil {
+		log.Fatalf("DB migration failed: %v", err)
+	}
 
 	seedCategories()
 }

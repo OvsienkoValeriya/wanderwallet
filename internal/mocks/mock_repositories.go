@@ -257,6 +257,51 @@ func (mr *MockExpenseRepositoryInterfaceMockRecorder) GetExpensesByUserTimeAndCa
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExpensesByUserTimeAndCategory", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).GetExpensesByUserTimeAndCategory), userID, fromTime, toTime, categoryID)
 }
 
+// SumByCategory mocks base method.
+func (m *MockExpenseRepositoryInterface) SumByCategory(userID, travelID uint, from, to *time.Time) (map[string]float64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SumByCategory", userID, travelID, from, to)
+	ret0, _ := ret[0].(map[string]float64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SumByCategory indicates an expected call of SumByCategory.
+func (mr *MockExpenseRepositoryInterfaceMockRecorder) SumByCategory(userID, travelID, from, to interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SumByCategory", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).SumByCategory), userID, travelID, from, to)
+}
+
+// SumByDay mocks base method.
+func (m *MockExpenseRepositoryInterface) SumByDay(userID, travelID uint, from, to *time.Time) (map[string]float64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SumByDay", userID, travelID, from, to)
+	ret0, _ := ret[0].(map[string]float64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SumByDay indicates an expected call of SumByDay.
+func (mr *MockExpenseRepositoryInterfaceMockRecorder) SumByDay(userID, travelID, from, to interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SumByDay", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).SumByDay), userID, travelID, from, to)
+}
+
+// TotalSum mocks base method.
+func (m *MockExpenseRepositoryInterface) TotalSum(userID, travelID uint, from, to *time.Time) (float64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "TotalSum", userID, travelID, from, to)
+	ret0, _ := ret[0].(float64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// TotalSum indicates an expected call of TotalSum.
+func (mr *MockExpenseRepositoryInterfaceMockRecorder) TotalSum(userID, travelID, from, to interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TotalSum", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).TotalSum), userID, travelID, from, to)
+}
+
 // UpdateExpense mocks base method.
 func (m *MockExpenseRepositoryInterface) UpdateExpense(expense *models.Expense) error {
 	m.ctrl.T.Helper()

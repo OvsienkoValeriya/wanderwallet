@@ -70,3 +70,69 @@ func (r *ExpenseRepository) ExistsByCategoryID(categoryID uint) (bool, error) {
 	}
 	return count > 0, nil
 }
+
+func (r *ExpenseRepository) SumByCategory(userID uint, travelID uint, from, to *time.Time) (map[string]float64, error) {
+	var results []struct {
+		Category string
+		Amount   float64
+	}
+	query := r.db.Table("expenses").
+		Select("categories.name as category, SUM(expenses.amount) as amount").
+		Joins("LEFT JOIN categories ON expenses.category_id = categories.id").
+		Where("expenses.user_id = ? AND expenses.travel_id = ? AND expenses.deleted_at IS NULL", userID, travelID).
+		Group("categories.name")
+	if from != nil {
+		query = query.Where("expenses.created_at >= ?", *from)
+	}
+	if to != nil {
+		query = query.Where("expenses.created_at <= ?", *to)
+	}
+	if err := query.Scan(&results).Error; err != nil {
+		return nil, err
+	}
+	res := make(map[string]float64)
+	for _, r := range results {
+		res[r.Category] = r.Amount
+	}
+	return res, nil
+}
+
+func (r *ExpenseRepository) SumByDay(userID uint, travelID uint, from, to *time.Time) (map[string]float64, error) {
+	var results []struct {
+		Day    string
+		Amount float64
+	}
+	query := r.db.Table("expenses").
+		Select("DATE(expenses.created_at) as day, SUM(expenses.amount) as amount").
+		Where("expenses.user_id = ? AND expenses.travel_id = ? AND expenses.deleted_at IS NULL", userID, travelID).
+		Group("day")
+	if from != nil {
+		query = query.Where("expenses.created_at >= ?", *from)
+	}
+	if to != nil {
+		query = query.Where("expenses.created_at <= ?", *to)
+	}
+	if err := query.Scan(&results).Error; err != nil {
+		return nil, err
+	}
+	res := make(map[string]float64)
+	for _, r := range results {
+		res[r.Day] = r.Amount
+	}
+	return res, nil
+}
+
+func (r *ExpenseRepository) TotalSum(userID uint, travelID uint, from, to *time.Time) (float64, error) {
+	var sum float64
+	query := r.db.Model(&models.Expense{}).
+		Select("SUM(amount)").
+		Where("user_id = ? AND travel_id = ? AND deleted_at IS NULL", userID, travelID)
+	if from != nil {
+		query = query.Where("created_at >= ?", *from)
+	}
+	if to != nil {
+		query = query.Where("created_at <= ?", *to)
+	}
+	err := query.Scan(&sum).Error
+	return sum, err
+}

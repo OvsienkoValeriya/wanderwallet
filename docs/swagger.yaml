@@ -1,4 +1,19 @@
 definitions:
+  dto.AnalyticsResponse:
+    properties:
+      by_category:
+        additionalProperties:
+          format: float64
+          type: number
+        type: object
+      by_day:
+        additionalProperties:
+          format: float64
+          type: number
+        type: object
+      total:
+        type: number
+    type: object
   dto.CategoryResponse:
     properties:
       builtin:
@@ -85,6 +100,56 @@ definitions:
 info:
   contact: {}
 paths:
+  /api/analytics:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает суммы по категориям, динамику по датам и общую сумму
+        расходов за период
+      parameters:
+      - description: ID путешествия
+        in: query
+        name: travel_id
+        required: true
+        type: integer
+      - description: Дата начала, формат YYYY-MM-DD
+        in: query
+        name: from
+        type: string
+      - description: Дата окончания, формат YYYY-MM-DD
+        in: query
+        name: to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AnalyticsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получение агрегированной аналитики
+      tags:
+      - analytics
   /api/auth/login:
     post:
       consumes:

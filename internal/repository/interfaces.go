@@ -25,6 +25,9 @@ type ExpenseRepositoryInterface interface {
 	ExistsByCategoryID(categoryID uint) (bool, error)
 	UpdateExpense(expense *models.Expense) error
 	DeleteExpense(id uint) error
+	SumByCategory(userID uint, travelID uint, from, to *time.Time) (map[string]float64, error)
+	SumByDay(userID uint, travelID uint, from, to *time.Time) (map[string]float64, error)
+	TotalSum(userID uint, travelID uint, from, to *time.Time) (float64, error)
 }
 
 type CategoryRepositoryInterface interface {

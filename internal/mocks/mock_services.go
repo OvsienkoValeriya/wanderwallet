@@ -295,3 +295,41 @@ func (mr *MockCategoryServiceInterfaceMockRecorder) GetCategoryByName(name inter
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCategoryByName", reflect.TypeOf((*MockCategoryServiceInterface)(nil).GetCategoryByName), name)
 }
+
+// MockAnalyticsServiceInterfase is a mock of AnalyticsServiceInterfase interface.
+type MockAnalyticsServiceInterfase struct {
+	ctrl     *gomock.Controller
+	recorder *MockAnalyticsServiceInterfaseMockRecorder
+}
+
+// MockAnalyticsServiceInterfaseMockRecorder is the mock recorder for MockAnalyticsServiceInterfase.
+type MockAnalyticsServiceInterfaseMockRecorder struct {
+	mock *MockAnalyticsServiceInterfase
+}
+
+// NewMockAnalyticsServiceInterfase creates a new mock instance.
+func NewMockAnalyticsServiceInterfase(ctrl *gomock.Controller) *MockAnalyticsServiceInterfase {
+	mock := &MockAnalyticsServiceInterfase{ctrl: ctrl}
+	mock.recorder = &MockAnalyticsServiceInterfaseMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockAnalyticsServiceInterfase) EXPECT() *MockAnalyticsServiceInterfaseMockRecorder {
+	return m.recorder
+}
+
+// Aggregate mocks base method.
+func (m *MockAnalyticsServiceInterfase) Aggregate(userID, travelID uint, from, to time.Time) (*dto.AnalyticsResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Aggregate", userID, travelID, from, to)
+	ret0, _ := ret[0].(*dto.AnalyticsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Aggregate indicates an expected call of Aggregate.
+func (mr *MockAnalyticsServiceInterfaseMockRecorder) Aggregate(userID, travelID, from, to interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Aggregate", reflect.TypeOf((*MockAnalyticsServiceInterfase)(nil).Aggregate), userID, travelID, from, to)
+}

@@ -38,11 +38,13 @@ func main() {
 	travelService := services.NewTravelService(travelRepo)
 	categoryService := services.NewCategoryService(categoryRepo, expenseRepo)
 	expenseService := services.NewExpenseService(expenseRepo)
+	analyticsServise := services.NewAnalyticsService(expenseRepo)
 
 	userController := controllers.NewUserController(userService)
 	travelController := controllers.NewTravelController(travelService)
 	expenseController := controllers.NewExpenseController(expenseService, categoryService, travelService)
 	categoryController := controllers.NewCategoryController(categoryService, expenseService)
+	analyticsController := controllers.NewAnalyticsController(expenseService, analyticsServise)
 
 	api := r.Group("/api")
 	{
@@ -70,6 +72,11 @@ func main() {
 			categoryRoutes.GET("", categoryController.GetCategoriesByUserID)
 			categoryRoutes.POST("", categoryController.CreateCategory)
 			categoryRoutes.DELETE("/:id", categoryController.DeleteCategoryByID)
+		}
+
+		analyticsRoutes := api.Group("/analytics")
+		{
+			analyticsRoutes.GET("", analyticsController.GetAnalytics)
 		}
 	}
 	if err := r.Run(); err != nil {

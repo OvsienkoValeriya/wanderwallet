@@ -30,3 +30,7 @@ type CategoryServiceInterface interface {
 	CreateCategory(category *models.Category) error
 	DeleteCategory(categoryID uint) error
 }
+
+type AnalyticsServiceInterfase interface {
+	Aggregate(userID uint, travelID uint, from time.Time, to time.Time) (*dto.AnalyticsResponse, error)
+}

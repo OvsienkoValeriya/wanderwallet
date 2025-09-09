@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -15,10 +16,10 @@ type AnalyticsController struct {
 	analyticsService *services.AnalyticsService
 }
 
-func NewAnalyticsController(expenseService *services.ExpenseService, analyticsServise *services.AnalyticsService) *AnalyticsController {
+func NewAnalyticsController(expenseService *services.ExpenseService, analyticsService *services.AnalyticsService) *AnalyticsController {
 	return &AnalyticsController{
 		expenseService:   expenseService,
-		analyticsService: analyticsServise,
+		analyticsService: analyticsService,
 	}
 }
 
@@ -45,7 +46,8 @@ func (ctrl *AnalyticsController) GetAnalytics(c *gin.Context) {
 	}
 	user, ok := userVal.(models.User)
 	if !ok {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "invalid user in context"})
+		log.Println("Invalid user in context")
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
 		return
 	}
 
@@ -56,7 +58,7 @@ func (ctrl *AnalyticsController) GetAnalytics(c *gin.Context) {
 	}
 	travelIDUint64, err := strconv.ParseUint(travelIDStr, 10, 32)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid travelID"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid travel_id"})
 		return
 	}
 	travelID := uint(travelIDUint64)
@@ -82,6 +84,7 @@ func (ctrl *AnalyticsController) GetAnalytics(c *gin.Context) {
 
 	resp, err := ctrl.analyticsService.Aggregate(user.ID, travelID, from, to)
 	if err != nil {
+		log.Printf("Analytics aggregation error: %v\n", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
 		return
 	}

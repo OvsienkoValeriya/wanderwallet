@@ -31,8 +31,8 @@ func main() {
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	r.Use(middleware.DebugMiddleware())
 	r.Use(middleware.AuthMiddleware)
+	r.Use(middleware.LoggerMiddleware())
 
 	userRepo := repository.NewUserRepository(initializers.DB)
 	travelRepo := repository.NewTravelRepository(initializers.DB)

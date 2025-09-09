@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"wanderwallet/internal/dto"
@@ -47,16 +48,15 @@ func (ctrl *ExpenseController) CreateExpense(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request"})
 		return
 	}
-
 	userVal, exists := c.Get("user")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
 	}
-
 	user, ok := userVal.(models.User)
 	if !ok {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "invalid user in context"})
+		log.Println("Invalid user in context in CreateExpense")
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
 		return
 	}
 
@@ -88,14 +88,14 @@ func (ctrl *ExpenseController) CreateExpense(c *gin.Context) {
 	}
 
 	if err := ctrl.expenseService.CreateExpense(expense); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create expense"})
+		log.Printf("Failed to create expense for user %d: %v\n", user.ID, err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": fmt.Sprintf("Expense with amount %.2f created", expense.Amount),
 	})
-
 }
 
 // GetExpensesByUserID godoc
@@ -119,14 +119,17 @@ func (ctrl *ExpenseController) GetExpensesByUserID(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid query params"})
 		return
 	}
-
 	userVal, exists := c.Get("user")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
 	}
-
-	user, _ := userVal.(models.User)
+	user, ok := userVal.(models.User)
+	if !ok {
+		log.Println("Invalid user in context in GetExpensesByUserID")
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		return
+	}
 
 	var fromDate, toDate *time.Time
 	if req.From != "" {
@@ -158,7 +161,8 @@ func (ctrl *ExpenseController) GetExpensesByUserID(c *gin.Context) {
 
 	expenses, err := ctrl.expenseService.GetExpensesByUserTimeAndCategory(user.ID, fromDate, toDate, categoryID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not fetch expenses"})
+		log.Printf("Failed to get expenses for user %d: %v\n", user.ID, err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
 		return
 	}
 
@@ -174,7 +178,6 @@ func (ctrl *ExpenseController) GetExpensesByUserID(c *gin.Context) {
 		})
 	}
 	c.JSON(http.StatusOK, expenseResponses)
-
 }
 
 // UpdateExpenseByUserID godoc
@@ -193,10 +196,8 @@ func (ctrl *ExpenseController) GetExpensesByUserID(c *gin.Context) {
 // @Failure 500 {object} map[string]string
 // @Router /api/expenses/{id} [put]
 func (ctrl *ExpenseController) UpdateExpenseByUserID(c *gin.Context) {
-
 	idStr := c.Param("id")
 	expenseID, err := strconv.ParseUint(idStr, 10, 64)
-
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid expense ID"})
 		return
@@ -213,10 +214,10 @@ func (ctrl *ExpenseController) UpdateExpenseByUserID(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
 	}
-
 	user, ok := userVal.(models.User)
 	if !ok {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "invalid user in context"})
+		log.Println("Invalid user in context in UpdateExpenseByUserID")
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
 		return
 	}
 
@@ -249,7 +250,8 @@ func (ctrl *ExpenseController) UpdateExpenseByUserID(c *gin.Context) {
 	expense.Description = req.Comment
 
 	if err := ctrl.expenseService.UpdateExpense(expense); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to update expense"})
+		log.Printf("Failed to update expense %d: %v\n", expense.ID, err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
 		return
 	}
 
@@ -287,7 +289,8 @@ func (ctrl *ExpenseController) DeleteExpenseByID(c *gin.Context) {
 	}
 	user, ok := userVal.(models.User)
 	if !ok {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "invalid user in context"})
+		log.Println("Invalid user in context in DeleteExpenseByID")
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
 		return
 	}
 
@@ -303,12 +306,12 @@ func (ctrl *ExpenseController) DeleteExpenseByID(c *gin.Context) {
 	}
 
 	if err := ctrl.expenseService.DeleteExpense(uint(expenseID)); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to delete expense"})
+		log.Printf("Failed to delete expense %d: %v\n", expense.ID, err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Expense deleted successfully",
 	})
-
 }

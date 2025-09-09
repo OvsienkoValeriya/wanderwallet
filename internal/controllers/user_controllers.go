@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 	"wanderwallet/internal/dto"
 	"wanderwallet/internal/services"
@@ -34,7 +35,7 @@ func (ctrl *UserController) Register(c *gin.Context) {
 	var req dto.UserRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Invalid request format",
+			"error": "invalid request format",
 		})
 		return
 	}
@@ -43,22 +44,22 @@ func (ctrl *UserController) Register(c *gin.Context) {
 		switch err {
 		case services.ErrUserAlreadyExists:
 			c.JSON(http.StatusConflict, gin.H{
-				"error": "Login already exists",
+				"error": "login already exists",
 			})
 		default:
+			log.Printf("Registration error: %v\n", err)
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": "Internal server error",
+				"error": "internal server error",
 			})
 		}
 		return
 	}
 
-	// Устанавливаем cookie
 	c.SetSameSite(http.SameSiteLaxMode)
 	c.SetCookie("Authorization", response.Token, 3600*24*30, "", "", false, true)
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "User registered and authenticated successfully",
+		"message": "user registered and authenticated successfully",
 	})
 }
 
@@ -79,7 +80,7 @@ func (ctrl *UserController) Login(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Invalid request format",
+			"error": "invalid request format",
 		})
 		return
 	}
@@ -89,11 +90,12 @@ func (ctrl *UserController) Login(c *gin.Context) {
 		switch err {
 		case services.ErrUserNotFound, services.ErrInvalidPassword:
 			c.JSON(http.StatusUnauthorized, gin.H{
-				"error": "Invalid login or password",
+				"error": "invalid login or password",
 			})
 		default:
+			log.Printf("Login error: %v\n", err)
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": "Internal server error",
+				"error": "internal server error",
 			})
 		}
 		return
@@ -103,6 +105,6 @@ func (ctrl *UserController) Login(c *gin.Context) {
 	c.SetCookie("Authorization", response.Token, 3600*24*30, "", "", false, true)
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "User authenticated successfully",
+		"message": "user authenticated successfully",
 	})
 }

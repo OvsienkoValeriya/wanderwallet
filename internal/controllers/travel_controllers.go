@@ -2,12 +2,12 @@ package controllers
 
 import (
 	"fmt"
+	"log"
 	"net/http"
+	"time"
 	"wanderwallet/internal/dto"
 	"wanderwallet/internal/models"
 	"wanderwallet/internal/services"
-
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -38,7 +38,7 @@ func (ctrl *TravelController) CreateTravel(c *gin.Context) {
 	var req dto.CreateTravelRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Invalid request format",
+			"error": "invalid request format",
 		})
 		return
 	}
@@ -51,25 +51,27 @@ func (ctrl *TravelController) CreateTravel(c *gin.Context) {
 
 	user, ok := userVal.(models.User)
 	if !ok {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "invalid user in context"})
+		log.Println("Invalid user in context in CreateTravel")
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
 		return
 	}
 
 	startDate, err := time.Parse("2006-01-02", req.StartDate)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid date"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid start date"})
 		return
 	}
 
 	endDate, err := time.Parse("2006-01-02", req.EndDate)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid date"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid end date"})
 		return
 	}
 
 	travel, err := ctrl.travelService.CreateTravel(user.ID, req.Title, startDate, endDate)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		log.Printf("Failed to create travel for user %d: %v\n", user.ID, err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
 		return
 	}
 

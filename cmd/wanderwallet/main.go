@@ -8,6 +8,7 @@ import (
 	"os/signal"
 	"time"
 	"wanderwallet/initializers"
+	"wanderwallet/internal/config"
 	"wanderwallet/internal/controllers"
 	"wanderwallet/internal/middleware"
 	"wanderwallet/internal/repository"
@@ -27,6 +28,11 @@ func init() {
 }
 
 func main() {
+	config.Init()
+	cfg := config.Get()
+
+	log.Println("Starting server on", cfg.RunAddress)
+
 	r := gin.Default()
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
@@ -43,13 +49,13 @@ func main() {
 	travelService := services.NewTravelService(travelRepo)
 	categoryService := services.NewCategoryService(categoryRepo, expenseRepo)
 	expenseService := services.NewExpenseService(expenseRepo)
-	analyticsServise := services.NewAnalyticsService(expenseRepo)
+	analyticsService := services.NewAnalyticsService(expenseRepo)
 
 	userController := controllers.NewUserController(userService)
 	travelController := controllers.NewTravelController(travelService)
 	expenseController := controllers.NewExpenseController(expenseService, categoryService, travelService)
 	categoryController := controllers.NewCategoryController(categoryService, expenseService)
-	analyticsController := controllers.NewAnalyticsController(expenseService, analyticsServise)
+	analyticsController := controllers.NewAnalyticsController(expenseService, analyticsService)
 
 	api := r.Group("/api")
 	{
@@ -85,12 +91,8 @@ func main() {
 		}
 	}
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "3000"
-	}
 	srv := &http.Server{
-		Addr:    ":" + port,
+		Addr:    cfg.RunAddress,
 		Handler: r,
 	}
 

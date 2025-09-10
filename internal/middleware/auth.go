@@ -13,11 +13,25 @@ import (
 )
 
 func AuthMiddleware(c *gin.Context) {
-	tokenStr, err := c.Cookie("Authorization")
-	if err != nil {
+	// Пытаемся получить токен из заголовка Authorization
+	authHeader := c.GetHeader("Authorization")
+	if authHeader == "" {
+		// Если нет заголовка, пытаемся взять из cookie
+		tokenStr, err := c.Cookie("Authorization")
+		if err != nil || tokenStr == "" {
+			c.AbortWithStatus(http.StatusUnauthorized)
+			return
+		}
+		authHeader = "Bearer " + tokenStr
+	}
+
+	// Ожидается формат: "Bearer <token>"
+	const prefix = "Bearer "
+	if len(authHeader) < len(prefix) || authHeader[:len(prefix)] != prefix {
 		c.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
+	tokenStr := authHeader[len(prefix):]
 
 	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (any, error) {
 		return []byte(os.Getenv("SECRET_KEY")), nil

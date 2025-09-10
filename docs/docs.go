@@ -19,6 +19,9 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
+                        "ApiKeyAuth": []
+                    },
+                    {
                         "BearerAuth": []
                     }
                 ],
@@ -221,6 +224,11 @@ const docTemplate = `{
         },
         "/api/categories": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Возвращает список категорий расходов для текущего пользователя",
                 "consumes": [
                     "application/json"
@@ -263,6 +271,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Добавляет новую категорию расходов для авторизованного пользователя",
                 "consumes": [
                     "application/json"
@@ -327,6 +340,11 @@ const docTemplate = `{
         },
         "/api/categories/{id}": {
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Удаляет пользовательскую категорию по ID, если она не системная и не используется",
                 "consumes": [
                     "application/json"
@@ -407,6 +425,11 @@ const docTemplate = `{
         },
         "/api/expenses": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Возвращает список расходов текущего пользователя по категории и дате (опционально)",
                 "consumes": [
                     "application/json"
@@ -487,6 +510,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Добавляет новый расход для авторизованного пользователя",
                 "consumes": [
                     "application/json"
@@ -569,6 +597,11 @@ const docTemplate = `{
         },
         "/api/expenses/{id}": {
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Обновляет данные расхода по его ID для текущего пользователя",
                 "consumes": [
                     "application/json"
@@ -656,6 +689,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Удаляет расход текущего пользователя по ID",
                 "consumes": [
                     "application/json"
@@ -736,6 +774,11 @@ const docTemplate = `{
         },
         "/api/travel": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Создает запись о путешествии для авторизованного пользователя",
                 "consumes": [
                     "application/json"
@@ -945,17 +988,24 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
+	Version:          "1.0",
 	Host:             "",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "Wanderwallet API",
+	Description:      "API для управления расходами и путешествиями",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

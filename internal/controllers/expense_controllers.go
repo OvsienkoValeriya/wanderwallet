@@ -41,6 +41,7 @@ func NewExpenseController(expenseService *services.ExpenseService, categoryServi
 // @Failure 403 {object} map[string]string
 // @Failure 404 {object} map[string]string
 // @Failure 500 {object} map[string]string
+// @Security ApiKeyAuth
 // @Router /api/expenses [post]
 func (ctrl *ExpenseController) CreateExpense(c *gin.Context) {
 	var req dto.CreateExpenseRequest
@@ -112,6 +113,7 @@ func (ctrl *ExpenseController) CreateExpense(c *gin.Context) {
 // @Failure 401 {object} map[string]string
 // @Failure 404 {object} map[string]string
 // @Failure 500 {object} map[string]string
+// @Security ApiKeyAuth
 // @Router /api/expenses [get]
 func (ctrl *ExpenseController) GetExpensesByUserID(c *gin.Context) {
 	var req dto.GetUsersExpenseRequest
@@ -194,6 +196,7 @@ func (ctrl *ExpenseController) GetExpensesByUserID(c *gin.Context) {
 // @Failure 403 {object} map[string]string
 // @Failure 404 {object} map[string]string
 // @Failure 500 {object} map[string]string
+// @Security ApiKeyAuth
 // @Router /api/expenses/{id} [put]
 func (ctrl *ExpenseController) UpdateExpenseByUserID(c *gin.Context) {
 	idStr := c.Param("id")
@@ -273,6 +276,7 @@ func (ctrl *ExpenseController) UpdateExpenseByUserID(c *gin.Context) {
 // @Failure 403 {object} map[string]string
 // @Failure 404 {object} map[string]string
 // @Failure 500 {object} map[string]string
+// @Security ApiKeyAuth
 // @Router /api/expenses/{id} [delete]
 func (ctrl *ExpenseController) DeleteExpenseByID(c *gin.Context) {
 	idStr := c.Param("id")

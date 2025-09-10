@@ -37,6 +37,7 @@ func NewAnalyticsController(expenseService *services.ExpenseService, analyticsSe
 // @Failure 401 {object} map[string]string
 // @Failure 500 {object} map[string]string
 // @Router /api/analytics [get]
+// @Security ApiKeyAuth
 // @Security BearerAuth
 func (ctrl *AnalyticsController) GetAnalytics(c *gin.Context) {
 	userVal, exists := c.Get("user")

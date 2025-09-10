@@ -1,3 +1,9 @@
+// @title Wanderwallet API
+// @version 1.0
+// @description API для управления расходами и путешествиями
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 package main
 
 import (

@@ -33,6 +33,7 @@ func NewTravelController(travelService *services.TravelService) *TravelControlle
 // @Failure 400 {object} map[string]string
 // @Failure 401 {object} map[string]string
 // @Failure 500 {object} map[string]string
+// @Security ApiKeyAuth
 // @Router /api/travel [post]
 func (ctrl *TravelController) CreateTravel(c *gin.Context) {
 	var req dto.CreateTravelRequest

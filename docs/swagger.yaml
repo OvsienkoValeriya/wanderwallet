@@ -99,6 +99,9 @@ definitions:
     type: object
 info:
   contact: {}
+  description: API для управления расходами и путешествиями
+  title: Wanderwallet API
+  version: "1.0"
 paths:
   /api/analytics:
     get:
@@ -146,6 +149,7 @@ paths:
               type: string
             type: object
       security:
+      - ApiKeyAuth: []
       - BearerAuth: []
       summary: Получение агрегированной аналитики
       tags:
@@ -260,6 +264,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Получить категории пользователя
       tags:
       - categories
@@ -301,6 +307,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Создать категорию
       tags:
       - categories
@@ -355,6 +363,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Удалить категорию
       tags:
       - categories
@@ -410,6 +420,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Получить расходы пользователя
       tags:
       - expenses
@@ -463,6 +475,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Создать расход
       tags:
       - expenses
@@ -516,6 +530,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Удалить расход
       tags:
       - expenses
@@ -574,6 +590,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Обновить расход
       tags:
       - expenses
@@ -616,7 +634,14 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Создать новое путешествие
       tags:
       - travel
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

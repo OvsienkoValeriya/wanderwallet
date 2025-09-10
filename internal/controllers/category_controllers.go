@@ -35,6 +35,7 @@ func NewCategoryController(categoryService *services.CategoryService, expenseSer
 // @Success 200 {array} dto.CategoryResponse
 // @Failure 401 {object} map[string]string
 // @Failure 500 {object} map[string]string
+// @Security ApiKeyAuth
 // @Router /api/categories [get]
 func (ctrl *CategoryController) GetCategoriesByUserID(c *gin.Context) {
 	userVal, exists := c.Get("user")
@@ -79,6 +80,7 @@ func (ctrl *CategoryController) GetCategoriesByUserID(c *gin.Context) {
 // @Failure 400 {object} map[string]string
 // @Failure 401 {object} map[string]string
 // @Failure 500 {object} map[string]string
+// @Security ApiKeyAuth
 // @Router /api/categories [post]
 func (ctrl *CategoryController) CreateCategory(c *gin.Context) {
 	var req dto.CreateCategoryRequest
@@ -134,6 +136,7 @@ func (ctrl *CategoryController) CreateCategory(c *gin.Context) {
 // @Failure 403 {object} map[string]string
 // @Failure 404 {object} map[string]string
 // @Failure 500 {object} map[string]string
+// @Security ApiKeyAuth
 // @Router /api/categories/{id} [delete]
 func (ctrl *CategoryController) DeleteCategoryByID(c *gin.Context) {
 	idStr := c.Param("id")

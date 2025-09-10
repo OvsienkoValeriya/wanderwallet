@@ -1,12 +1,18 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "description": "API для управления расходами и путешествиями",
+        "title": "Wanderwallet API",
+        "contact": {},
+        "version": "1.0"
     },
     "paths": {
         "/api/analytics": {
             "get": {
                 "security": [
+                    {
+                        "ApiKeyAuth": []
+                    },
                     {
                         "BearerAuth": []
                     }
@@ -210,6 +216,11 @@
         },
         "/api/categories": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Возвращает список категорий расходов для текущего пользователя",
                 "consumes": [
                     "application/json"
@@ -252,6 +263,11 @@
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Добавляет новую категорию расходов для авторизованного пользователя",
                 "consumes": [
                     "application/json"
@@ -316,6 +332,11 @@
         },
         "/api/categories/{id}": {
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Удаляет пользовательскую категорию по ID, если она не системная и не используется",
                 "consumes": [
                     "application/json"
@@ -396,6 +417,11 @@
         },
         "/api/expenses": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Возвращает список расходов текущего пользователя по категории и дате (опционально)",
                 "consumes": [
                     "application/json"
@@ -476,6 +502,11 @@
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Добавляет новый расход для авторизованного пользователя",
                 "consumes": [
                     "application/json"
@@ -558,6 +589,11 @@
         },
         "/api/expenses/{id}": {
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Обновляет данные расхода по его ID для текущего пользователя",
                 "consumes": [
                     "application/json"
@@ -645,6 +681,11 @@
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Удаляет расход текущего пользователя по ID",
                 "consumes": [
                     "application/json"
@@ -725,6 +766,11 @@
         },
         "/api/travel": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Создает запись о путешествии для авторизованного пользователя",
                 "consumes": [
                     "application/json"
@@ -933,6 +979,13 @@
                     "minLength": 6
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }

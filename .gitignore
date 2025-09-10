@@ -1,0 +1,45 @@
+# Бинарники Go, тесты, временные файлы
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Директории и файлы сборки
+bin/
+build/
+dist/
+coverage/
+*.log
+
+# IDE/Editor специфичные файлы
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Кэш Go
+*.cache
+go.sum
+
+
+# Файлы и каталоги автогенерируемого Swagger
+docs/swagger.json
+docs/swagger.yaml
+
+# Персональные и приватные настройки
+.env
+.env.local
+.env.*
+
+# Файлы базы данных (если в проекте)
+*.db
+*.sqlite
+*.sqlite3
+tmp/
+
+# Прочее
+.DS_Store
+Thumbs.db

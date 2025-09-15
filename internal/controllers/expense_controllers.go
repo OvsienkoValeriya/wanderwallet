@@ -57,7 +57,7 @@ func (ctrl *ExpenseController) CreateExpense(c *gin.Context) {
 	user, ok := userVal.(models.User)
 	if !ok {
 		log.Println("Invalid user in context in CreateExpense")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 
@@ -90,7 +90,7 @@ func (ctrl *ExpenseController) CreateExpense(c *gin.Context) {
 
 	if err := ctrl.expenseService.CreateExpense(expense); err != nil {
 		log.Printf("Failed to create expense for user %d: %v\n", user.ID, err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 
@@ -129,7 +129,7 @@ func (ctrl *ExpenseController) GetExpensesByUserID(c *gin.Context) {
 	user, ok := userVal.(models.User)
 	if !ok {
 		log.Println("Invalid user in context in GetExpensesByUserID")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 
@@ -164,7 +164,7 @@ func (ctrl *ExpenseController) GetExpensesByUserID(c *gin.Context) {
 	expenses, err := ctrl.expenseService.GetExpensesByUserTimeAndCategory(user.ID, fromDate, toDate, categoryID)
 	if err != nil {
 		log.Printf("Failed to get expenses for user %d: %v\n", user.ID, err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 
@@ -220,7 +220,7 @@ func (ctrl *ExpenseController) UpdateExpenseByUserID(c *gin.Context) {
 	user, ok := userVal.(models.User)
 	if !ok {
 		log.Println("Invalid user in context in UpdateExpenseByUserID")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 
@@ -254,7 +254,7 @@ func (ctrl *ExpenseController) UpdateExpenseByUserID(c *gin.Context) {
 
 	if err := ctrl.expenseService.UpdateExpense(expense); err != nil {
 		log.Printf("Failed to update expense %d: %v\n", expense.ID, err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 
@@ -294,7 +294,7 @@ func (ctrl *ExpenseController) DeleteExpenseByID(c *gin.Context) {
 	user, ok := userVal.(models.User)
 	if !ok {
 		log.Println("Invalid user in context in DeleteExpenseByID")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 
@@ -311,7 +311,7 @@ func (ctrl *ExpenseController) DeleteExpenseByID(c *gin.Context) {
 
 	if err := ctrl.expenseService.DeleteExpense(uint(expenseID)); err != nil {
 		log.Printf("Failed to delete expense %d: %v\n", expense.ID, err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 

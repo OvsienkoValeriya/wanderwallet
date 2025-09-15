@@ -53,7 +53,7 @@ func (ctrl *TravelController) CreateTravel(c *gin.Context) {
 	user, ok := userVal.(models.User)
 	if !ok {
 		log.Println("Invalid user in context in CreateTravel")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 
@@ -72,7 +72,7 @@ func (ctrl *TravelController) CreateTravel(c *gin.Context) {
 	travel, err := ctrl.travelService.CreateTravel(user.ID, req.Title, startDate, endDate)
 	if err != nil {
 		log.Printf("Failed to create travel for user %d: %v\n", user.ID, err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 

@@ -48,7 +48,7 @@ func (ctrl *AnalyticsController) GetAnalytics(c *gin.Context) {
 	user, ok := userVal.(models.User)
 	if !ok {
 		log.Println("Invalid user in context")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 
@@ -86,7 +86,7 @@ func (ctrl *AnalyticsController) GetAnalytics(c *gin.Context) {
 	resp, err := ctrl.analyticsService.Aggregate(user.ID, travelID, from, to)
 	if err != nil {
 		log.Printf("Analytics aggregation error: %v\n", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 

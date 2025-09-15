@@ -47,14 +47,14 @@ func (ctrl *CategoryController) GetCategoriesByUserID(c *gin.Context) {
 	user, ok := userVal.(models.User)
 	if !ok {
 		log.Println("Invalid user in context in GetCategoriesByUserID")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 
 	categories, err := ctrl.categoryService.GetAllCategories(user.ID)
 	if err != nil {
 		log.Printf("Failed to get categories for user %d: %v\n", user.ID, err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 
@@ -98,7 +98,7 @@ func (ctrl *CategoryController) CreateCategory(c *gin.Context) {
 	user, ok := userVal.(models.User)
 	if !ok {
 		log.Println("Invalid user in context in CreateCategory")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 
@@ -114,7 +114,7 @@ func (ctrl *CategoryController) CreateCategory(c *gin.Context) {
 			return
 		}
 		log.Printf("Failed to create category for user %d: %v\n", user.ID, err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 
@@ -154,7 +154,7 @@ func (ctrl *CategoryController) DeleteCategoryByID(c *gin.Context) {
 	user, ok := userVal.(models.User)
 	if !ok {
 		log.Println("Invalid user in context in DeleteCategoryByID")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 
@@ -177,7 +177,7 @@ func (ctrl *CategoryController) DeleteCategoryByID(c *gin.Context) {
 	inUse, err := ctrl.expenseService.ExistsByCategoryID(uint(categoryID))
 	if err != nil {
 		log.Printf("Failed to check category usage for category %d: %v\n", categoryID, err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 	if inUse {
@@ -187,7 +187,7 @@ func (ctrl *CategoryController) DeleteCategoryByID(c *gin.Context) {
 
 	if err := ctrl.categoryService.DeleteCategory(uint(categoryID)); err != nil {
 		log.Printf("Failed to delete category %d: %v\n", categoryID, err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
 	}
 

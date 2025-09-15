@@ -18,6 +18,7 @@ import (
 	"wanderwallet/internal/controllers"
 	"wanderwallet/internal/middleware"
 	"wanderwallet/internal/repository"
+	"wanderwallet/internal/routes"
 	"wanderwallet/internal/services"
 
 	_ "wanderwallet/docs"
@@ -63,39 +64,7 @@ func main() {
 	categoryController := controllers.NewCategoryController(categoryService, expenseService)
 	analyticsController := controllers.NewAnalyticsController(expenseService, analyticsService)
 
-	api := r.Group("/api")
-	{
-		userRoutes := api.Group("/auth")
-		{
-			userRoutes.POST("/register", userController.Register)
-			userRoutes.POST("/login", userController.Login)
-		}
-
-		travelRoutes := api.Group("/travel")
-		{
-			travelRoutes.POST("", travelController.CreateTravel)
-		}
-
-		expenseRoutes := api.Group("/expenses")
-		{
-			expenseRoutes.GET("", expenseController.GetExpensesByUserID)
-			expenseRoutes.POST("", expenseController.CreateExpense)
-			expenseRoutes.PUT("/:id", expenseController.UpdateExpenseByUserID)
-			expenseRoutes.DELETE("/:id", expenseController.DeleteExpenseByID)
-		}
-
-		categoryRoutes := api.Group("/categories")
-		{
-			categoryRoutes.GET("", categoryController.GetCategoriesByUserID)
-			categoryRoutes.POST("", categoryController.CreateCategory)
-			categoryRoutes.DELETE("/:id", categoryController.DeleteCategoryByID)
-		}
-
-		analyticsRoutes := api.Group("/analytics")
-		{
-			analyticsRoutes.GET("", analyticsController.GetAnalytics)
-		}
-	}
+	routes.SetupRouter(r, userController, travelController, expenseController, categoryController, analyticsController)
 
 	srv := &http.Server{
 		Addr:    cfg.RunAddress,

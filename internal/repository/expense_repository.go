@@ -32,20 +32,27 @@ func (r *ExpenseRepository) GetExpensesByUserID(userID uint) ([]models.Expense, 
 
 }
 
-func (r *ExpenseRepository) GetExpensesByUserTimeAndCategory(userID uint, fromTime *time.Time, toTime *time.Time, categoryID *uint) ([]models.Expense, error) {
+type ExpenseFilter struct {
+	UserID     uint
+	FromTime   *time.Time
+	ToTime     *time.Time
+	CategoryID *uint
+}
+
+func (r *ExpenseRepository) GetExpensesByUserTimeAndCategory(filter ExpenseFilter) ([]models.Expense, error) {
 	var expenses []models.Expense
-	query := r.db.Model(&models.Expense{}).Where("user_id = ?", userID)
+	query := r.db.Model(&models.Expense{}).Where("user_id = ?", filter.UserID)
 
-	if categoryID != nil {
-		query = query.Where("category_id = ?", *categoryID)
+	if filter.CategoryID != nil {
+		query = query.Where("category_id = ?", *filter.CategoryID)
 	}
 
-	if fromTime != nil {
-		query = query.Where("created_at >= ?", *fromTime)
+	if filter.FromTime != nil {
+		query = query.Where("created_at >= ?", *filter.FromTime)
 	}
 
-	if toTime != nil {
-		query = query.Where("created_at <= ?", *toTime)
+	if filter.ToTime != nil {
+		query = query.Where("created_at <= ?", *filter.ToTime)
 	}
 
 	err := query.Find(&expenses).Error

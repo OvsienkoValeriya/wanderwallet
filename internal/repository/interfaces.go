@@ -20,7 +20,7 @@ type TravelRepositoryInterface interface {
 type ExpenseRepositoryInterface interface {
 	CreateExpense(expense *models.Expense) error
 	GetExpensesByUserID(id uint) ([]models.Expense, error)
-	GetExpensesByUserTimeAndCategory(userID uint, fromTime *time.Time, toTime *time.Time, categoryID *uint) ([]models.Expense, error)
+	GetExpensesByUserTimeAndCategory(filter ExpenseFilter) ([]models.Expense, error)
 	GetExpenseByID(expenseID uint) (*models.Expense, error)
 	ExistsByCategoryID(categoryID uint) (bool, error)
 	UpdateExpense(expense *models.Expense) error

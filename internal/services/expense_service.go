@@ -29,7 +29,13 @@ func (s *ExpenseService) GetExpensesByUserID(id uint) ([]models.Expense, error) 
 }
 
 func (s *ExpenseService) GetExpensesByUserTimeAndCategory(userID uint, fromTime *time.Time, toTime *time.Time, categoryID *uint) ([]models.Expense, error) {
-	return s.repo.GetExpensesByUserTimeAndCategory(userID, fromTime, toTime, categoryID)
+	filter := repository.ExpenseFilter{
+		UserID:     userID,
+		FromTime:   fromTime,
+		ToTime:     toTime,
+		CategoryID: categoryID,
+	}
+	return s.repo.GetExpensesByUserTimeAndCategory(filter)
 }
 
 func (s *ExpenseService) ExistsByCategoryID(categoryID uint) (bool, error) {

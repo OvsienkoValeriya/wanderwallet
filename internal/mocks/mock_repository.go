@@ -8,6 +8,7 @@ import (
 	reflect "reflect"
 	time "time"
 	models "wanderwallet/internal/models"
+	repository "wanderwallet/internal/repository"
 
 	gomock "github.com/golang/mock/gomock"
 )
@@ -243,18 +244,18 @@ func (mr *MockExpenseRepositoryInterfaceMockRecorder) GetExpensesByUserID(id int
 }
 
 // GetExpensesByUserTimeAndCategory mocks base method.
-func (m *MockExpenseRepositoryInterface) GetExpensesByUserTimeAndCategory(userID uint, fromTime, toTime *time.Time, categoryID *uint) ([]models.Expense, error) {
+func (m *MockExpenseRepositoryInterface) GetExpensesByUserTimeAndCategory(filter repository.ExpenseFilter) ([]models.Expense, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetExpensesByUserTimeAndCategory", userID, fromTime, toTime, categoryID)
+	ret := m.ctrl.Call(m, "GetExpensesByUserTimeAndCategory", filter)
 	ret0, _ := ret[0].([]models.Expense)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetExpensesByUserTimeAndCategory indicates an expected call of GetExpensesByUserTimeAndCategory.
-func (mr *MockExpenseRepositoryInterfaceMockRecorder) GetExpensesByUserTimeAndCategory(userID, fromTime, toTime, categoryID interface{}) *gomock.Call {
+func (mr *MockExpenseRepositoryInterfaceMockRecorder) GetExpensesByUserTimeAndCategory(filter interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExpensesByUserTimeAndCategory", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).GetExpensesByUserTimeAndCategory), userID, fromTime, toTime, categoryID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExpensesByUserTimeAndCategory", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).GetExpensesByUserTimeAndCategory), filter)
 }
 
 // SumByCategory mocks base method.

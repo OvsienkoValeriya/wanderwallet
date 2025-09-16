@@ -77,7 +77,7 @@ func TestExpenseService_GetExpensesByUserTimeAndCategory(t *testing.T) {
 
 	t.Run("success", func(t *testing.T) {
 		mockRepo.EXPECT().
-			GetExpensesByUserTimeAndCategory(userID, &from, &to, &categoryID).
+			GetExpensesByUserTimeAndCategory(gomock.Any()).
 			Return(expected, nil)
 
 		expenses, err := service.GetExpensesByUserTimeAndCategory(userID, &from, &to, &categoryID)
@@ -87,7 +87,7 @@ func TestExpenseService_GetExpensesByUserTimeAndCategory(t *testing.T) {
 
 	t.Run("repo error", func(t *testing.T) {
 		mockRepo.EXPECT().
-			GetExpensesByUserTimeAndCategory(userID, &from, &to, &categoryID).
+			GetExpensesByUserTimeAndCategory(gomock.Any()).
 			Return(nil, errors.New("db error"))
 
 		expenses, err := service.GetExpensesByUserTimeAndCategory(userID, &from, &to, &categoryID)

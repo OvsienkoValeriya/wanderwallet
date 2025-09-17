@@ -38,18 +38,7 @@ func NewCategoryController(categoryService *services.CategoryService, expenseSer
 // @Security ApiKeyAuth
 // @Router /api/categories [get]
 func (ctrl *CategoryController) GetCategoriesByUserID(c *gin.Context) {
-	userVal, exists := c.Get("user")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
-		return
-	}
-
-	user, ok := userVal.(models.User)
-	if !ok {
-		log.Println("Invalid user in context in GetCategoriesByUserID")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
-		return
-	}
+	user := c.MustGet("user").(models.User)
 
 	categories, err := ctrl.categoryService.GetAllCategories(user.ID)
 	if err != nil {
@@ -89,18 +78,7 @@ func (ctrl *CategoryController) CreateCategory(c *gin.Context) {
 		return
 	}
 
-	userVal, exists := c.Get("user")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
-		return
-	}
-
-	user, ok := userVal.(models.User)
-	if !ok {
-		log.Println("Invalid user in context in CreateCategory")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
-		return
-	}
+	user := c.MustGet("user").(models.User)
 
 	category := &models.Category{
 		UserID:  &user.ID,
@@ -146,17 +124,7 @@ func (ctrl *CategoryController) DeleteCategoryByID(c *gin.Context) {
 		return
 	}
 
-	userVal, exists := c.Get("user")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
-		return
-	}
-	user, ok := userVal.(models.User)
-	if !ok {
-		log.Println("Invalid user in context in DeleteCategoryByID")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
-		return
-	}
+	user := c.MustGet("user").(models.User)
 
 	category, err := ctrl.categoryService.GetCategoryByID(uint(categoryID))
 	if err != nil {

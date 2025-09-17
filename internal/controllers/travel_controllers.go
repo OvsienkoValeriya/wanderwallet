@@ -43,19 +43,7 @@ func (ctrl *TravelController) CreateTravel(c *gin.Context) {
 		})
 		return
 	}
-
-	userVal, exists := c.Get("user")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
-		return
-	}
-
-	user, ok := userVal.(models.User)
-	if !ok {
-		log.Println("Invalid user in context in CreateTravel")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
-		return
-	}
+	user := c.MustGet("user").(models.User)
 
 	startDate, err := time.Parse("2006-01-02", req.StartDate)
 	if err != nil {

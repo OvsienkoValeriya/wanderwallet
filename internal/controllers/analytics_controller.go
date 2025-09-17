@@ -40,17 +40,7 @@ func NewAnalyticsController(expenseService *services.ExpenseService, analyticsSe
 // @Security ApiKeyAuth
 // @Security BearerAuth
 func (ctrl *AnalyticsController) GetAnalytics(c *gin.Context) {
-	userVal, exists := c.Get("user")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
-		return
-	}
-	user, ok := userVal.(models.User)
-	if !ok {
-		log.Println("Invalid user in context")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
-		return
-	}
+	user := c.MustGet("user").(models.User)
 
 	travelIDStr := c.Query("travel_id")
 	travelIDUint64, err := strconv.ParseUint(travelIDStr, 10, 32)

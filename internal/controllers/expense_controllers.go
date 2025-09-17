@@ -49,17 +49,7 @@ func (ctrl *ExpenseController) CreateExpense(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request"})
 		return
 	}
-	userVal, exists := c.Get("user")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
-		return
-	}
-	user, ok := userVal.(models.User)
-	if !ok {
-		log.Println("Invalid user in context in CreateExpense")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
-		return
-	}
+	user := c.MustGet("user").(models.User)
 
 	category, err := ctrl.categoryService.GetCategoryByName(req.Category)
 	if err != nil {
@@ -121,17 +111,7 @@ func (ctrl *ExpenseController) GetExpensesByUserID(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid query params"})
 		return
 	}
-	userVal, exists := c.Get("user")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
-		return
-	}
-	user, ok := userVal.(models.User)
-	if !ok {
-		log.Println("Invalid user in context in GetExpensesByUserID")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
-		return
-	}
+	user := c.MustGet("user").(models.User)
 
 	var fromDate, toDate *time.Time
 	if req.From != "" {
@@ -212,18 +192,7 @@ func (ctrl *ExpenseController) UpdateExpenseByUserID(c *gin.Context) {
 		return
 	}
 
-	userVal, exists := c.Get("user")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
-		return
-	}
-	user, ok := userVal.(models.User)
-	if !ok {
-		log.Println("Invalid user in context in UpdateExpenseByUserID")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
-		return
-	}
-
+	user := c.MustGet("user").(models.User)
 	expense, err := ctrl.expenseService.GetExpenseByID(uint(expenseID))
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "expense not found"})
@@ -286,17 +255,7 @@ func (ctrl *ExpenseController) DeleteExpenseByID(c *gin.Context) {
 		return
 	}
 
-	userVal, exists := c.Get("user")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
-		return
-	}
-	user, ok := userVal.(models.User)
-	if !ok {
-		log.Println("Invalid user in context in DeleteExpenseByID")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
-		return
-	}
+	user := c.MustGet("user").(models.User)
 
 	expense, err := ctrl.expenseService.GetExpenseByID(uint(expenseID))
 	if err != nil {

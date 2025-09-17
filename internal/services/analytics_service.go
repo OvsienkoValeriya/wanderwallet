@@ -1,6 +1,7 @@
 package services
 
 import (
+	"errors"
 	"time"
 	"wanderwallet/internal/dto"
 	"wanderwallet/internal/repository"
@@ -17,12 +18,20 @@ func NewAnalyticsService(repo repository.ExpenseRepositoryInterface) *AnalyticsS
 }
 
 func (s *AnalyticsService) Aggregate(userID uint, travelID uint, from, to time.Time) (*dto.AnalyticsResponse, error) {
+	if travelID == 0 {
+		return nil, errors.New("travel_id is required")
+	}
+
 	var fromPtr, toPtr *time.Time
 	if !from.IsZero() {
 		fromPtr = &from
 	}
 	if !to.IsZero() {
 		toPtr = &to
+	}
+
+	if fromPtr != nil && toPtr != nil && from.After(*toPtr) {
+		return nil, errors.New("from date must be before to date")
 	}
 
 	total, err := s.repo.TotalSum(userID, travelID, fromPtr, toPtr)

@@ -53,10 +53,6 @@ func (ctrl *AnalyticsController) GetAnalytics(c *gin.Context) {
 	}
 
 	travelIDStr := c.Query("travel_id")
-	if travelIDStr == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "travel_id is required"})
-		return
-	}
 	travelIDUint64, err := strconv.ParseUint(travelIDStr, 10, 32)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid travel_id"})

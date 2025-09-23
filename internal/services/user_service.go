@@ -1,6 +1,7 @@
 package services
 
 import (
+	"context"
 	"errors"
 	"os"
 	"strconv"
@@ -35,8 +36,8 @@ type RegisterResponse struct {
 	Token string
 }
 
-func (s *UserService) Register(login, password string) (*RegisterResponse, error) {
-	exists, err := s.userRepo.IsLoginExists(login)
+func (s *UserService) Register(ctx context.Context, login, password string) (*RegisterResponse, error) {
+	exists, err := s.userRepo.IsLoginExists(ctx, login)
 	if err != nil {
 		return nil, err
 	}
@@ -54,7 +55,7 @@ func (s *UserService) Register(login, password string) (*RegisterResponse, error
 		Password: hashedPassword,
 	}
 
-	if err := s.userRepo.CreateUser(user); err != nil {
+	if err := s.userRepo.CreateUser(ctx, user); err != nil {
 		return nil, err
 	}
 
@@ -96,8 +97,8 @@ type LoginResponse struct {
 	Token string
 }
 
-func (s *UserService) Login(login, password string) (*LoginResponse, error) {
-	user, err := s.userRepo.GetByLogin(login)
+func (s *UserService) Login(ctx context.Context, login, password string) (*LoginResponse, error) {
+	user, err := s.userRepo.GetByLogin(ctx, login)
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, ErrUserNotFound
@@ -121,6 +122,6 @@ func (s *UserService) Login(login, password string) (*LoginResponse, error) {
 		nil
 }
 
-func (s *UserService) GetUserByID(id uint) (*models.User, error) {
-	return s.userRepo.GetByID(id)
+func (s *UserService) GetUserByID(ctx context.Context, id uint) (*models.User, error) {
+	return s.userRepo.GetByID(ctx, id)
 }

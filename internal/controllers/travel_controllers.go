@@ -44,6 +44,7 @@ func (ctrl *TravelController) CreateTravel(c *gin.Context) {
 		return
 	}
 	user := c.MustGet("user").(models.User)
+	ctx := c.Request.Context()
 
 	startDate, err := time.Parse("2006-01-02", req.StartDate)
 	if err != nil {
@@ -57,7 +58,7 @@ func (ctrl *TravelController) CreateTravel(c *gin.Context) {
 		return
 	}
 
-	travel, err := ctrl.travelService.CreateTravel(user.ID, req.Title, startDate, endDate)
+	travel, err := ctrl.travelService.CreateTravel(ctx, user.ID, req.Title, startDate, endDate)
 	if err != nil {
 		log.Printf("Failed to create travel for user %d: %v\n", user.ID, err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})

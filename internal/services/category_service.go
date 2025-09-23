@@ -1,6 +1,7 @@
 package services
 
 import (
+	"context"
 	"errors"
 	"wanderwallet/internal/models"
 	"wanderwallet/internal/repository"
@@ -22,24 +23,24 @@ func NewCategoryService(repo repository.CategoryRepositoryInterface, expenseRepo
 	}
 }
 
-func (s *CategoryService) GetCategoryByID(id uint) (*models.Category, error) {
-	return s.repo.GetCategoryByID(id)
+func (s *CategoryService) GetCategoryByID(ctx context.Context, id uint) (*models.Category, error) {
+	return s.repo.GetCategoryByID(ctx, id)
 }
 
-func (s *CategoryService) GetCategoryByName(name string) (*models.Category, error) {
-	return s.repo.GetCategoryByName(name)
+func (s *CategoryService) GetCategoryByName(ctx context.Context, name string) (*models.Category, error) {
+	return s.repo.GetCategoryByName(ctx, name)
 }
 
-func (s *CategoryService) GetAllCategories(userID uint) ([]models.Category, error) {
-	return s.repo.GetAllCategories(userID)
+func (s *CategoryService) GetAllCategories(ctx context.Context, userID uint) ([]models.Category, error) {
+	return s.repo.GetAllCategories(ctx, userID)
 }
 
-func (s *CategoryService) CreateCategory(category *models.Category) error {
-	return s.repo.CreateCategory(category)
+func (s *CategoryService) CreateCategory(ctx context.Context, category *models.Category) error {
+	return s.repo.CreateCategory(ctx, category)
 }
 
-func (s *CategoryService) DeleteCategory(categoryID uint) error {
-	hasExpenses, err := s.expenseRepo.ExistsByCategoryID(categoryID)
+func (s *CategoryService) DeleteCategory(ctx context.Context, categoryID uint) error {
+	hasExpenses, err := s.expenseRepo.ExistsByCategoryID(ctx, categoryID)
 	if err != nil {
 		return err
 	}
@@ -47,5 +48,5 @@ func (s *CategoryService) DeleteCategory(categoryID uint) error {
 		return ErrCategoryHasLinkedExpenses
 	}
 
-	return s.repo.DeleteCategory(categoryID)
+	return s.repo.DeleteCategory(ctx, categoryID)
 }

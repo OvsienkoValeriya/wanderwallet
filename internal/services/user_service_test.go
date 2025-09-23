@@ -1,6 +1,7 @@
 package services
 
 import (
+	"context"
 	"errors"
 	"os"
 	"testing"
@@ -29,15 +30,19 @@ func TestUserService_Register_Success(t *testing.T) {
 
 	login := "testuser"
 	password := "testpass123"
+	ctx := context.Background()
 
 	// Настраиваем мок с помощью gomock
-	mockRepo.EXPECT().IsLoginExists(login).Return(false, nil)
-	mockRepo.EXPECT().CreateUser(gomock.Any()).Return(nil).Do(func(user *models.User) {
-		user.ID = 1 // Имитируем автоинкремент ID
-	})
+	mockRepo.EXPECT().IsLoginExists(ctx, login).Return(false, nil)
+	mockRepo.EXPECT().
+		CreateUser(ctx, gomock.Any()).
+		Return(nil).
+		Do(func(ctx context.Context, user *models.User) {
+			user.ID = 1 // Имитируем автоинкремент ID
+		})
 
 	// Act
-	response, err := service.Register(login, password)
+	response, err := service.Register(ctx, login, password)
 
 	// Assert
 	assert.NoError(t, err)
@@ -57,12 +62,13 @@ func TestUserService_Register_UserAlreadyExists(t *testing.T) {
 
 	login := "existinguser"
 	password := "testpass123"
+	ctx := context.Background()
 
 	// Настраиваем мок - пользователь уже существует
-	mockRepo.EXPECT().IsLoginExists(login).Return(true, nil)
+	mockRepo.EXPECT().IsLoginExists(ctx, login).Return(true, nil)
 
 	// Act
-	response, err := service.Register(login, password)
+	response, err := service.Register(ctx, login, password)
 
 	// Assert
 	assert.Error(t, err)
@@ -81,12 +87,13 @@ func TestUserService_Register_DatabaseError(t *testing.T) {
 	login := "testuser"
 	password := "testpass123"
 	dbError := errors.New("database connection error")
+	ctx := context.Background()
 
 	// Настраиваем мок
-	mockRepo.EXPECT().IsLoginExists(login).Return(false, dbError)
+	mockRepo.EXPECT().IsLoginExists(ctx, login).Return(false, dbError)
 
 	// Act
-	response, err := service.Register(login, password)
+	response, err := service.Register(ctx, login, password)
 
 	// Assert
 	assert.Error(t, err)
@@ -112,12 +119,13 @@ func TestUserService_Login_Success(t *testing.T) {
 		Password: hashedPassword,
 	}
 	user.ID = 1
+	ctx := context.Background()
 
 	// Настраиваем мок
-	mockRepo.EXPECT().GetByLogin(login).Return(user, nil)
+	mockRepo.EXPECT().GetByLogin(ctx, login).Return(user, nil)
 
 	// Act
-	response, err := service.Login(login, password)
+	response, err := service.Login(ctx, login, password)
 
 	// Assert
 	assert.NoError(t, err)
@@ -136,12 +144,13 @@ func TestUserService_Login_UserNotFound(t *testing.T) {
 
 	login := "nonexistentuser"
 	password := "testpass123"
+	ctx := context.Background()
 
 	// Настраиваем мок
-	mockRepo.EXPECT().GetByLogin(login).Return(nil, gorm.ErrRecordNotFound)
+	mockRepo.EXPECT().GetByLogin(ctx, login).Return(nil, gorm.ErrRecordNotFound)
 
 	// Act
-	response, err := service.Login(login, password)
+	response, err := service.Login(ctx, login, password)
 
 	// Assert
 	assert.Error(t, err)
@@ -168,12 +177,13 @@ func TestUserService_Login_InvalidPassword(t *testing.T) {
 		Password: hashedPassword,
 	}
 	user.ID = 1
+	ctx := context.Background()
 
 	// Настраиваем мок
-	mockRepo.EXPECT().GetByLogin(login).Return(user, nil)
+	mockRepo.EXPECT().GetByLogin(ctx, login).Return(user, nil)
 
 	// Act
-	response, err := service.Login(login, wrongPassword)
+	response, err := service.Login(ctx, login, wrongPassword)
 
 	// Assert
 	assert.Error(t, err)
@@ -194,12 +204,13 @@ func TestUserService_GetUserByID_Success(t *testing.T) {
 		Login: "testuser",
 	}
 	expectedUser.ID = userID
+	ctx := context.Background()
 
 	// Настраиваем мок
-	mockRepo.EXPECT().GetByID(userID).Return(expectedUser, nil)
+	mockRepo.EXPECT().GetByID(ctx, userID).Return(expectedUser, nil)
 
 	// Act
-	user, err := service.GetUserByID(userID)
+	user, err := service.GetUserByID(ctx, userID)
 
 	// Assert
 	assert.NoError(t, err)

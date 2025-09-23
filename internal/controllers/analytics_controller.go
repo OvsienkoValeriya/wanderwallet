@@ -68,8 +68,8 @@ func (ctrl *AnalyticsController) GetAnalytics(c *gin.Context) {
 			return
 		}
 	}
-
-	resp, err := ctrl.analyticsService.Aggregate(user.ID, travelID, from, to)
+	ctx := c.Request.Context()
+	resp, err := ctrl.analyticsService.Aggregate(ctx, user.ID, travelID, from, to)
 	if err != nil {
 		log.Printf("Analytics aggregation error: %v\n", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})

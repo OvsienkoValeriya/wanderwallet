@@ -1,6 +1,7 @@
 package services
 
 import (
+	"context"
 	"errors"
 	"testing"
 	"time"
@@ -19,18 +20,18 @@ func TestExpenseService_CreateExpense(t *testing.T) {
 	service := NewExpenseService(mockRepo)
 
 	expense := &models.Expense{ID: 1, Amount: 100}
-
+	ctx := context.Background()
 	t.Run("success", func(t *testing.T) {
-		mockRepo.EXPECT().CreateExpense(expense).Return(nil)
+		mockRepo.EXPECT().CreateExpense(ctx, expense).Return(nil)
 
-		err := service.CreateExpense(expense)
+		err := service.CreateExpense(ctx, expense)
 		assert.NoError(t, err)
 	})
 
 	t.Run("repo error", func(t *testing.T) {
-		mockRepo.EXPECT().CreateExpense(expense).Return(errors.New("db error"))
+		mockRepo.EXPECT().CreateExpense(ctx, expense).Return(errors.New("db error"))
 
-		err := service.CreateExpense(expense)
+		err := service.CreateExpense(ctx, expense)
 		assert.EqualError(t, err, "db error")
 	})
 }
@@ -43,19 +44,20 @@ func TestExpenseService_GetExpensesByUserID(t *testing.T) {
 	service := NewExpenseService(mockRepo)
 
 	expected := []models.Expense{{ID: 1, Amount: 200}}
+	ctx := context.Background()
 
 	t.Run("success", func(t *testing.T) {
-		mockRepo.EXPECT().GetExpensesByUserID(uint(1)).Return(expected, nil)
+		mockRepo.EXPECT().GetExpensesByUserID(ctx, uint(1)).Return(expected, nil)
 
-		expenses, err := service.GetExpensesByUserID(1)
+		expenses, err := service.GetExpensesByUserID(ctx, 1)
 		assert.NoError(t, err)
 		assert.Equal(t, expected, expenses)
 	})
 
 	t.Run("repo error", func(t *testing.T) {
-		mockRepo.EXPECT().GetExpensesByUserID(uint(1)).Return(nil, errors.New("db error"))
+		mockRepo.EXPECT().GetExpensesByUserID(ctx, uint(1)).Return(nil, errors.New("db error"))
 
-		expenses, err := service.GetExpensesByUserID(1)
+		expenses, err := service.GetExpensesByUserID(ctx, 1)
 		assert.Error(t, err)
 		assert.Nil(t, expenses)
 	})
@@ -74,23 +76,24 @@ func TestExpenseService_GetExpensesByUserTimeAndCategory(t *testing.T) {
 	categoryID := uint(2)
 
 	expected := []models.Expense{{ID: 10, Amount: 500}}
+	ctx := context.Background()
 
 	t.Run("success", func(t *testing.T) {
 		mockRepo.EXPECT().
-			GetExpensesByUserTimeAndCategory(gomock.Any()).
+			GetExpensesByUserTimeAndCategory(ctx, gomock.Any()).
 			Return(expected, nil)
 
-		expenses, err := service.GetExpensesByUserTimeAndCategory(userID, &from, &to, &categoryID)
+		expenses, err := service.GetExpensesByUserTimeAndCategory(ctx, userID, &from, &to, &categoryID)
 		assert.NoError(t, err)
 		assert.Equal(t, expected, expenses)
 	})
 
 	t.Run("repo error", func(t *testing.T) {
 		mockRepo.EXPECT().
-			GetExpensesByUserTimeAndCategory(gomock.Any()).
+			GetExpensesByUserTimeAndCategory(ctx, gomock.Any()).
 			Return(nil, errors.New("db error"))
 
-		expenses, err := service.GetExpensesByUserTimeAndCategory(userID, &from, &to, &categoryID)
+		expenses, err := service.GetExpensesByUserTimeAndCategory(ctx, userID, &from, &to, &categoryID)
 		assert.Error(t, err)
 		assert.Nil(t, expenses)
 	})
@@ -104,18 +107,19 @@ func TestExpenseService_UpdateExpense(t *testing.T) {
 	service := NewExpenseService(mockRepo)
 
 	expense := &models.Expense{ID: 1, Amount: 300}
+	ctx := context.Background()
 
 	t.Run("success", func(t *testing.T) {
-		mockRepo.EXPECT().UpdateExpense(expense).Return(nil)
+		mockRepo.EXPECT().UpdateExpense(ctx, expense).Return(nil)
 
-		err := service.UpdateExpense(expense)
+		err := service.UpdateExpense(ctx, expense)
 		assert.NoError(t, err)
 	})
 
 	t.Run("repo error", func(t *testing.T) {
-		mockRepo.EXPECT().UpdateExpense(expense).Return(errors.New("db error"))
+		mockRepo.EXPECT().UpdateExpense(ctx, expense).Return(errors.New("db error"))
 
-		err := service.UpdateExpense(expense)
+		err := service.UpdateExpense(ctx, expense)
 		assert.EqualError(t, err, "db error")
 	})
 }
@@ -126,18 +130,19 @@ func TestExpenseService_DeleteExpense(t *testing.T) {
 
 	mockRepo := mocks.NewMockExpenseRepositoryInterface(ctrl)
 	service := NewExpenseService(mockRepo)
+	ctx := context.Background()
 
 	t.Run("success", func(t *testing.T) {
-		mockRepo.EXPECT().DeleteExpense(uint(1)).Return(nil)
+		mockRepo.EXPECT().DeleteExpense(ctx, uint(1)).Return(nil)
 
-		err := service.DeleteExpense(1)
+		err := service.DeleteExpense(ctx, 1)
 		assert.NoError(t, err)
 	})
 
 	t.Run("repo error", func(t *testing.T) {
-		mockRepo.EXPECT().DeleteExpense(uint(1)).Return(errors.New("db error"))
+		mockRepo.EXPECT().DeleteExpense(ctx, uint(1)).Return(errors.New("db error"))
 
-		err := service.DeleteExpense(1)
+		err := service.DeleteExpense(ctx, 1)
 		assert.EqualError(t, err, "db error")
 	})
 }

@@ -5,6 +5,7 @@
 package mocks
 
 import (
+	context "context"
 	reflect "reflect"
 	time "time"
 	dto "wanderwallet/internal/dto"
@@ -37,48 +38,48 @@ func (m *MockUserServiceInterface) EXPECT() *MockUserServiceInterfaceMockRecorde
 }
 
 // GetUserByID mocks base method.
-func (m *MockUserServiceInterface) GetUserByID(id uint) (*models.User, error) {
+func (m *MockUserServiceInterface) GetUserByID(ctx context.Context, id uint) (*models.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUserByID", id)
+	ret := m.ctrl.Call(m, "GetUserByID", ctx, id)
 	ret0, _ := ret[0].(*models.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetUserByID indicates an expected call of GetUserByID.
-func (mr *MockUserServiceInterfaceMockRecorder) GetUserByID(id interface{}) *gomock.Call {
+func (mr *MockUserServiceInterfaceMockRecorder) GetUserByID(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByID", reflect.TypeOf((*MockUserServiceInterface)(nil).GetUserByID), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByID", reflect.TypeOf((*MockUserServiceInterface)(nil).GetUserByID), ctx, id)
 }
 
 // Login mocks base method.
-func (m *MockUserServiceInterface) Login(login, password string) (*dto.LoginResponse, error) {
+func (m *MockUserServiceInterface) Login(ctx context.Context, login, password string) (*dto.LoginResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Login", login, password)
+	ret := m.ctrl.Call(m, "Login", ctx, login, password)
 	ret0, _ := ret[0].(*dto.LoginResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Login indicates an expected call of Login.
-func (mr *MockUserServiceInterfaceMockRecorder) Login(login, password interface{}) *gomock.Call {
+func (mr *MockUserServiceInterfaceMockRecorder) Login(ctx, login, password interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Login", reflect.TypeOf((*MockUserServiceInterface)(nil).Login), login, password)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Login", reflect.TypeOf((*MockUserServiceInterface)(nil).Login), ctx, login, password)
 }
 
 // Register mocks base method.
-func (m *MockUserServiceInterface) Register(login, password string) (*dto.RegisterResponse, error) {
+func (m *MockUserServiceInterface) Register(ctx context.Context, login, password string) (*dto.RegisterResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Register", login, password)
+	ret := m.ctrl.Call(m, "Register", ctx, login, password)
 	ret0, _ := ret[0].(*dto.RegisterResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Register indicates an expected call of Register.
-func (mr *MockUserServiceInterfaceMockRecorder) Register(login, password interface{}) *gomock.Call {
+func (mr *MockUserServiceInterfaceMockRecorder) Register(ctx, login, password interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Register", reflect.TypeOf((*MockUserServiceInterface)(nil).Register), login, password)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Register", reflect.TypeOf((*MockUserServiceInterface)(nil).Register), ctx, login, password)
 }
 
 // MockTravelServiceInterface is a mock of TravelServiceInterface interface.
@@ -105,33 +106,33 @@ func (m *MockTravelServiceInterface) EXPECT() *MockTravelServiceInterfaceMockRec
 }
 
 // CreateTravel mocks base method.
-func (m *MockTravelServiceInterface) CreateTravel(userID uint, title string, start, end time.Time) (*models.Travel, error) {
+func (m *MockTravelServiceInterface) CreateTravel(ctx context.Context, userID uint, title string, start, end time.Time) (*models.Travel, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateTravel", userID, title, start, end)
+	ret := m.ctrl.Call(m, "CreateTravel", ctx, userID, title, start, end)
 	ret0, _ := ret[0].(*models.Travel)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CreateTravel indicates an expected call of CreateTravel.
-func (mr *MockTravelServiceInterfaceMockRecorder) CreateTravel(userID, title, start, end interface{}) *gomock.Call {
+func (mr *MockTravelServiceInterfaceMockRecorder) CreateTravel(ctx, userID, title, start, end interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTravel", reflect.TypeOf((*MockTravelServiceInterface)(nil).CreateTravel), userID, title, start, end)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTravel", reflect.TypeOf((*MockTravelServiceInterface)(nil).CreateTravel), ctx, userID, title, start, end)
 }
 
 // GetTravelByID mocks base method.
-func (m *MockTravelServiceInterface) GetTravelByID(travelID uint) (*models.Travel, error) {
+func (m *MockTravelServiceInterface) GetTravelByID(ctx context.Context, travelID uint) (*models.Travel, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetTravelByID", travelID)
+	ret := m.ctrl.Call(m, "GetTravelByID", ctx, travelID)
 	ret0, _ := ret[0].(*models.Travel)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetTravelByID indicates an expected call of GetTravelByID.
-func (mr *MockTravelServiceInterfaceMockRecorder) GetTravelByID(travelID interface{}) *gomock.Call {
+func (mr *MockTravelServiceInterfaceMockRecorder) GetTravelByID(ctx, travelID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTravelByID", reflect.TypeOf((*MockTravelServiceInterface)(nil).GetTravelByID), travelID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTravelByID", reflect.TypeOf((*MockTravelServiceInterface)(nil).GetTravelByID), ctx, travelID)
 }
 
 // MockExpenseServiceInterface is a mock of ExpenseServiceInterface interface.
@@ -158,61 +159,61 @@ func (m *MockExpenseServiceInterface) EXPECT() *MockExpenseServiceInterfaceMockR
 }
 
 // CreateExpense mocks base method.
-func (m *MockExpenseServiceInterface) CreateExpense(expense *models.Expense) (*models.Expense, error) {
+func (m *MockExpenseServiceInterface) CreateExpense(ctx context.Context, expense *models.Expense) (*models.Expense, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateExpense", expense)
+	ret := m.ctrl.Call(m, "CreateExpense", ctx, expense)
 	ret0, _ := ret[0].(*models.Expense)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CreateExpense indicates an expected call of CreateExpense.
-func (mr *MockExpenseServiceInterfaceMockRecorder) CreateExpense(expense interface{}) *gomock.Call {
+func (mr *MockExpenseServiceInterfaceMockRecorder) CreateExpense(ctx, expense interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateExpense", reflect.TypeOf((*MockExpenseServiceInterface)(nil).CreateExpense), expense)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateExpense", reflect.TypeOf((*MockExpenseServiceInterface)(nil).CreateExpense), ctx, expense)
 }
 
 // DeleteExpense mocks base method.
-func (m *MockExpenseServiceInterface) DeleteExpense(id uint) error {
+func (m *MockExpenseServiceInterface) DeleteExpense(ctx context.Context, id uint) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteExpense", id)
+	ret := m.ctrl.Call(m, "DeleteExpense", ctx, id)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteExpense indicates an expected call of DeleteExpense.
-func (mr *MockExpenseServiceInterfaceMockRecorder) DeleteExpense(id interface{}) *gomock.Call {
+func (mr *MockExpenseServiceInterfaceMockRecorder) DeleteExpense(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteExpense", reflect.TypeOf((*MockExpenseServiceInterface)(nil).DeleteExpense), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteExpense", reflect.TypeOf((*MockExpenseServiceInterface)(nil).DeleteExpense), ctx, id)
 }
 
 // GetExpensesByUserID mocks base method.
-func (m *MockExpenseServiceInterface) GetExpensesByUserID(id uint) ([]models.Expense, error) {
+func (m *MockExpenseServiceInterface) GetExpensesByUserID(ctx context.Context, id uint) ([]models.Expense, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetExpensesByUserID", id)
+	ret := m.ctrl.Call(m, "GetExpensesByUserID", ctx, id)
 	ret0, _ := ret[0].([]models.Expense)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetExpensesByUserID indicates an expected call of GetExpensesByUserID.
-func (mr *MockExpenseServiceInterfaceMockRecorder) GetExpensesByUserID(id interface{}) *gomock.Call {
+func (mr *MockExpenseServiceInterfaceMockRecorder) GetExpensesByUserID(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExpensesByUserID", reflect.TypeOf((*MockExpenseServiceInterface)(nil).GetExpensesByUserID), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExpensesByUserID", reflect.TypeOf((*MockExpenseServiceInterface)(nil).GetExpensesByUserID), ctx, id)
 }
 
 // UpdateExpense mocks base method.
-func (m *MockExpenseServiceInterface) UpdateExpense(expense *models.Expense) error {
+func (m *MockExpenseServiceInterface) UpdateExpense(ctx context.Context, expense *models.Expense) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateExpense", expense)
+	ret := m.ctrl.Call(m, "UpdateExpense", ctx, expense)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateExpense indicates an expected call of UpdateExpense.
-func (mr *MockExpenseServiceInterfaceMockRecorder) UpdateExpense(expense interface{}) *gomock.Call {
+func (mr *MockExpenseServiceInterfaceMockRecorder) UpdateExpense(ctx, expense interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateExpense", reflect.TypeOf((*MockExpenseServiceInterface)(nil).UpdateExpense), expense)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateExpense", reflect.TypeOf((*MockExpenseServiceInterface)(nil).UpdateExpense), ctx, expense)
 }
 
 // MockCategoryServiceInterface is a mock of CategoryServiceInterface interface.
@@ -239,61 +240,61 @@ func (m *MockCategoryServiceInterface) EXPECT() *MockCategoryServiceInterfaceMoc
 }
 
 // CreateCategory mocks base method.
-func (m *MockCategoryServiceInterface) CreateCategory(category *models.Category) error {
+func (m *MockCategoryServiceInterface) CreateCategory(ctx context.Context, category *models.Category) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateCategory", category)
+	ret := m.ctrl.Call(m, "CreateCategory", ctx, category)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateCategory indicates an expected call of CreateCategory.
-func (mr *MockCategoryServiceInterfaceMockRecorder) CreateCategory(category interface{}) *gomock.Call {
+func (mr *MockCategoryServiceInterfaceMockRecorder) CreateCategory(ctx, category interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCategory", reflect.TypeOf((*MockCategoryServiceInterface)(nil).CreateCategory), category)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCategory", reflect.TypeOf((*MockCategoryServiceInterface)(nil).CreateCategory), ctx, category)
 }
 
 // DeleteCategory mocks base method.
-func (m *MockCategoryServiceInterface) DeleteCategory(categoryID uint) error {
+func (m *MockCategoryServiceInterface) DeleteCategory(ctx context.Context, categoryID uint) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteCategory", categoryID)
+	ret := m.ctrl.Call(m, "DeleteCategory", ctx, categoryID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteCategory indicates an expected call of DeleteCategory.
-func (mr *MockCategoryServiceInterfaceMockRecorder) DeleteCategory(categoryID interface{}) *gomock.Call {
+func (mr *MockCategoryServiceInterfaceMockRecorder) DeleteCategory(ctx, categoryID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCategory", reflect.TypeOf((*MockCategoryServiceInterface)(nil).DeleteCategory), categoryID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCategory", reflect.TypeOf((*MockCategoryServiceInterface)(nil).DeleteCategory), ctx, categoryID)
 }
 
 // GetCategoryByID mocks base method.
-func (m *MockCategoryServiceInterface) GetCategoryByID(id uint) (*models.Category, error) {
+func (m *MockCategoryServiceInterface) GetCategoryByID(ctx context.Context, id uint) (*models.Category, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCategoryByID", id)
+	ret := m.ctrl.Call(m, "GetCategoryByID", ctx, id)
 	ret0, _ := ret[0].(*models.Category)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetCategoryByID indicates an expected call of GetCategoryByID.
-func (mr *MockCategoryServiceInterfaceMockRecorder) GetCategoryByID(id interface{}) *gomock.Call {
+func (mr *MockCategoryServiceInterfaceMockRecorder) GetCategoryByID(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCategoryByID", reflect.TypeOf((*MockCategoryServiceInterface)(nil).GetCategoryByID), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCategoryByID", reflect.TypeOf((*MockCategoryServiceInterface)(nil).GetCategoryByID), ctx, id)
 }
 
 // GetCategoryByName mocks base method.
-func (m *MockCategoryServiceInterface) GetCategoryByName(name string) (*models.Category, error) {
+func (m *MockCategoryServiceInterface) GetCategoryByName(ctx context.Context, name string) (*models.Category, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCategoryByName", name)
+	ret := m.ctrl.Call(m, "GetCategoryByName", ctx, name)
 	ret0, _ := ret[0].(*models.Category)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetCategoryByName indicates an expected call of GetCategoryByName.
-func (mr *MockCategoryServiceInterfaceMockRecorder) GetCategoryByName(name interface{}) *gomock.Call {
+func (mr *MockCategoryServiceInterfaceMockRecorder) GetCategoryByName(ctx, name interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCategoryByName", reflect.TypeOf((*MockCategoryServiceInterface)(nil).GetCategoryByName), name)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCategoryByName", reflect.TypeOf((*MockCategoryServiceInterface)(nil).GetCategoryByName), ctx, name)
 }
 
 // MockAnalyticsServiceInterfase is a mock of AnalyticsServiceInterfase interface.
@@ -320,16 +321,16 @@ func (m *MockAnalyticsServiceInterfase) EXPECT() *MockAnalyticsServiceInterfaseM
 }
 
 // Aggregate mocks base method.
-func (m *MockAnalyticsServiceInterfase) Aggregate(userID, travelID uint, from, to time.Time) (*dto.AnalyticsResponse, error) {
+func (m *MockAnalyticsServiceInterfase) Aggregate(ctx context.Context, userID, travelID uint, from, to time.Time) (*dto.AnalyticsResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Aggregate", userID, travelID, from, to)
+	ret := m.ctrl.Call(m, "Aggregate", ctx, userID, travelID, from, to)
 	ret0, _ := ret[0].(*dto.AnalyticsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Aggregate indicates an expected call of Aggregate.
-func (mr *MockAnalyticsServiceInterfaseMockRecorder) Aggregate(userID, travelID, from, to interface{}) *gomock.Call {
+func (mr *MockAnalyticsServiceInterfaseMockRecorder) Aggregate(ctx, userID, travelID, from, to interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Aggregate", reflect.TypeOf((*MockAnalyticsServiceInterfase)(nil).Aggregate), userID, travelID, from, to)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Aggregate", reflect.TypeOf((*MockAnalyticsServiceInterfase)(nil).Aggregate), ctx, userID, travelID, from, to)
 }

@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"context"
 	"time"
 	"wanderwallet/internal/models"
 
@@ -15,19 +16,19 @@ func NewExpenseRepository(db *gorm.DB) ExpenseRepositoryInterface {
 	return &ExpenseRepository{db: db}
 }
 
-func (r *ExpenseRepository) CreateExpense(expense *models.Expense) error {
-	return r.db.Create(expense).Error
+func (r *ExpenseRepository) CreateExpense(ctx context.Context, expense *models.Expense) error {
+	return r.db.WithContext(ctx).Create(expense).Error
 }
 
-func (r *ExpenseRepository) GetExpenseByID(expenseID uint) (*models.Expense, error) {
+func (r *ExpenseRepository) GetExpenseByID(ctx context.Context, expenseID uint) (*models.Expense, error) {
 	var expense models.Expense
-	err := r.db.Where("id = ?", expenseID).First(&expense).Error
+	err := r.db.WithContext(ctx).Where("id = ?", expenseID).First(&expense).Error
 	return &expense, err
 }
 
-func (r *ExpenseRepository) GetExpensesByUserID(userID uint) ([]models.Expense, error) {
+func (r *ExpenseRepository) GetExpensesByUserID(ctx context.Context, userID uint) ([]models.Expense, error) {
 	var expenses []models.Expense
-	err := r.db.Where("user_id = ?", userID).Find(&expenses).Error
+	err := r.db.WithContext(ctx).Where("user_id = ?", userID).Find(&expenses).Error
 	return expenses, err
 
 }
@@ -39,9 +40,9 @@ type ExpenseFilter struct {
 	CategoryID *uint
 }
 
-func (r *ExpenseRepository) GetExpensesByUserTimeAndCategory(filter ExpenseFilter) ([]models.Expense, error) {
+func (r *ExpenseRepository) GetExpensesByUserTimeAndCategory(ctx context.Context, filter ExpenseFilter) ([]models.Expense, error) {
 	var expenses []models.Expense
-	query := r.db.Model(&models.Expense{}).Where("user_id = ?", filter.UserID)
+	query := r.db.WithContext(ctx).Model(&models.Expense{}).Where("user_id = ?", filter.UserID)
 
 	if filter.CategoryID != nil {
 		query = query.Where("category_id = ?", *filter.CategoryID)
@@ -59,18 +60,18 @@ func (r *ExpenseRepository) GetExpensesByUserTimeAndCategory(filter ExpenseFilte
 	return expenses, err
 }
 
-func (r *ExpenseRepository) UpdateExpense(expense *models.Expense) error {
-	return r.db.Save(expense).Error
+func (r *ExpenseRepository) UpdateExpense(ctx context.Context, expense *models.Expense) error {
+	return r.db.WithContext(ctx).Save(expense).Error
 
 }
 
-func (r *ExpenseRepository) DeleteExpense(id uint) error {
-	return r.db.Delete(&models.Expense{}, id).Error
+func (r *ExpenseRepository) DeleteExpense(ctx context.Context, id uint) error {
+	return r.db.WithContext(ctx).Delete(&models.Expense{}, id).Error
 }
 
-func (r *ExpenseRepository) ExistsByCategoryID(categoryID uint) (bool, error) {
+func (r *ExpenseRepository) ExistsByCategoryID(ctx context.Context, categoryID uint) (bool, error) {
 	var count int64
-	if err := r.db.Model(&models.Expense{}).
+	if err := r.db.WithContext(ctx).Model(&models.Expense{}).
 		Where("category_id = ?", categoryID).
 		Count(&count).Error; err != nil {
 		return false, err
@@ -78,12 +79,12 @@ func (r *ExpenseRepository) ExistsByCategoryID(categoryID uint) (bool, error) {
 	return count > 0, nil
 }
 
-func (r *ExpenseRepository) SumByCategory(userID uint, travelID uint, from, to *time.Time) (map[string]float64, error) {
+func (r *ExpenseRepository) SumByCategory(ctx context.Context, userID uint, travelID uint, from, to *time.Time) (map[string]float64, error) {
 	var results []struct {
 		Category string
 		Amount   float64
 	}
-	query := r.db.Table("expenses").
+	query := r.db.WithContext(ctx).Table("expenses").
 		Select("categories.name as category, SUM(expenses.amount) as amount").
 		Joins("LEFT JOIN categories ON expenses.category_id = categories.id").
 		Where("expenses.user_id = ? AND expenses.travel_id = ? AND expenses.deleted_at IS NULL", userID, travelID).
@@ -104,12 +105,12 @@ func (r *ExpenseRepository) SumByCategory(userID uint, travelID uint, from, to *
 	return res, nil
 }
 
-func (r *ExpenseRepository) SumByDay(userID uint, travelID uint, from, to *time.Time) (map[string]float64, error) {
+func (r *ExpenseRepository) SumByDay(ctx context.Context, userID uint, travelID uint, from, to *time.Time) (map[string]float64, error) {
 	var results []struct {
 		Day    string
 		Amount float64
 	}
-	query := r.db.Table("expenses").
+	query := r.db.WithContext(ctx).Table("expenses").
 		Select("DATE(expenses.created_at) as day, SUM(expenses.amount) as amount").
 		Where("expenses.user_id = ? AND expenses.travel_id = ? AND expenses.deleted_at IS NULL", userID, travelID).
 		Group("day")
@@ -129,9 +130,9 @@ func (r *ExpenseRepository) SumByDay(userID uint, travelID uint, from, to *time.
 	return res, nil
 }
 
-func (r *ExpenseRepository) TotalSum(userID uint, travelID uint, from, to *time.Time) (float64, error) {
+func (r *ExpenseRepository) TotalSum(ctx context.Context, userID uint, travelID uint, from, to *time.Time) (float64, error) {
 	var sum float64
-	query := r.db.Model(&models.Expense{}).
+	query := r.db.WithContext(ctx).Model(&models.Expense{}).
 		Select("SUM(amount)").
 		Where("user_id = ? AND travel_id = ? AND deleted_at IS NULL", userID, travelID)
 	if from != nil {

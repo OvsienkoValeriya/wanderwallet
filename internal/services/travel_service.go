@@ -1,6 +1,7 @@
 package services
 
 import (
+	"context"
 	"time"
 	"wanderwallet/internal/models"
 	"wanderwallet/internal/repository"
@@ -16,11 +17,11 @@ func NewTravelService(travelRepo repository.TravelRepositoryInterface) *TravelSe
 	}
 }
 
-func (s *TravelService) CreateTravel(userID uint, title string, start, end time.Time) (*models.Travel, error) {
+func (s *TravelService) CreateTravel(ctx context.Context, userID uint, title string, start, end time.Time) (*models.Travel, error) {
 	travel := &models.Travel{UserID: userID, Title: title, StartDate: start, EndDate: end}
-	return travel, s.repo.CreateTravel(travel)
+	return travel, s.repo.CreateTravel(ctx, travel)
 }
 
-func (s *TravelService) GetTravelByID(travelID uint) (*models.Travel, error) {
-	return s.repo.GetTravelByID(travelID)
+func (s *TravelService) GetTravelByID(ctx context.Context, travelID uint) (*models.Travel, error) {
+	return s.repo.GetTravelByID(ctx, travelID)
 }

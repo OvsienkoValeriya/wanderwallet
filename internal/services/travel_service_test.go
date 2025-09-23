@@ -1,6 +1,7 @@
 package services
 
 import (
+	"context"
 	"errors"
 	"testing"
 	"time"
@@ -22,12 +23,12 @@ func TestTravelService_CreateTravel_Success(t *testing.T) {
 	title := "Trip to Paris"
 	startDate := time.Date(2024, 3, 15, 0, 0, 0, 0, time.UTC)
 	endDate := time.Date(2024, 3, 25, 0, 0, 0, 0, time.UTC)
-
-	mockRepo.EXPECT().CreateTravel(gomock.Any()).Return(nil).Do(func(travel *models.Travel) {
+	ctx := context.Background()
+	mockRepo.EXPECT().CreateTravel(ctx, gomock.Any()).Return(nil).Do(func(_ context.Context, travel *models.Travel) {
 		travel.ID = 1 // Имитируем автоинкремент
 	})
 
-	result, err := service.CreateTravel(userID, title, startDate, endDate)
+	result, err := service.CreateTravel(ctx, userID, title, startDate, endDate)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, result)
@@ -43,11 +44,12 @@ func TestTravelService_CreateTravel_RepositoryError(t *testing.T) {
 
 	mockRepo := mocks.NewMockTravelRepositoryInterface(ctrl)
 	service := NewTravelService(mockRepo)
+	ctx := context.Background()
 
 	expectedError := errors.New("database error")
-	mockRepo.EXPECT().CreateTravel(gomock.Any()).Return(expectedError)
+	mockRepo.EXPECT().CreateTravel(ctx, gomock.Any()).Return(expectedError)
 
-	result, err := service.CreateTravel(1, "Test", time.Now(), time.Now().Add(24*time.Hour))
+	result, err := service.CreateTravel(ctx, 1, "Test", time.Now(), time.Now().Add(24*time.Hour))
 
 	assert.Error(t, err)
 	assert.Equal(t, expectedError, err)

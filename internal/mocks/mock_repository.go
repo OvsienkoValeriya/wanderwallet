@@ -5,6 +5,7 @@
 package mocks
 
 import (
+	context "context"
 	reflect "reflect"
 	time "time"
 	models "wanderwallet/internal/models"
@@ -37,62 +38,62 @@ func (m *MockUserRepositoryInterface) EXPECT() *MockUserRepositoryInterfaceMockR
 }
 
 // CreateUser mocks base method.
-func (m *MockUserRepositoryInterface) CreateUser(user *models.User) error {
+func (m *MockUserRepositoryInterface) CreateUser(ctx context.Context, user *models.User) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateUser", user)
+	ret := m.ctrl.Call(m, "CreateUser", ctx, user)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateUser indicates an expected call of CreateUser.
-func (mr *MockUserRepositoryInterfaceMockRecorder) CreateUser(user interface{}) *gomock.Call {
+func (mr *MockUserRepositoryInterfaceMockRecorder) CreateUser(ctx, user interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockUserRepositoryInterface)(nil).CreateUser), user)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockUserRepositoryInterface)(nil).CreateUser), ctx, user)
 }
 
 // GetByID mocks base method.
-func (m *MockUserRepositoryInterface) GetByID(id uint) (*models.User, error) {
+func (m *MockUserRepositoryInterface) GetByID(ctx context.Context, id uint) (*models.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetByID", id)
+	ret := m.ctrl.Call(m, "GetByID", ctx, id)
 	ret0, _ := ret[0].(*models.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetByID indicates an expected call of GetByID.
-func (mr *MockUserRepositoryInterfaceMockRecorder) GetByID(id interface{}) *gomock.Call {
+func (mr *MockUserRepositoryInterfaceMockRecorder) GetByID(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByID", reflect.TypeOf((*MockUserRepositoryInterface)(nil).GetByID), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByID", reflect.TypeOf((*MockUserRepositoryInterface)(nil).GetByID), ctx, id)
 }
 
 // GetByLogin mocks base method.
-func (m *MockUserRepositoryInterface) GetByLogin(login string) (*models.User, error) {
+func (m *MockUserRepositoryInterface) GetByLogin(ctx context.Context, login string) (*models.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetByLogin", login)
+	ret := m.ctrl.Call(m, "GetByLogin", ctx, login)
 	ret0, _ := ret[0].(*models.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetByLogin indicates an expected call of GetByLogin.
-func (mr *MockUserRepositoryInterfaceMockRecorder) GetByLogin(login interface{}) *gomock.Call {
+func (mr *MockUserRepositoryInterfaceMockRecorder) GetByLogin(ctx, login interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByLogin", reflect.TypeOf((*MockUserRepositoryInterface)(nil).GetByLogin), login)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByLogin", reflect.TypeOf((*MockUserRepositoryInterface)(nil).GetByLogin), ctx, login)
 }
 
 // IsLoginExists mocks base method.
-func (m *MockUserRepositoryInterface) IsLoginExists(login string) (bool, error) {
+func (m *MockUserRepositoryInterface) IsLoginExists(ctx context.Context, login string) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "IsLoginExists", login)
+	ret := m.ctrl.Call(m, "IsLoginExists", ctx, login)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // IsLoginExists indicates an expected call of IsLoginExists.
-func (mr *MockUserRepositoryInterfaceMockRecorder) IsLoginExists(login interface{}) *gomock.Call {
+func (mr *MockUserRepositoryInterfaceMockRecorder) IsLoginExists(ctx, login interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsLoginExists", reflect.TypeOf((*MockUserRepositoryInterface)(nil).IsLoginExists), login)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsLoginExists", reflect.TypeOf((*MockUserRepositoryInterface)(nil).IsLoginExists), ctx, login)
 }
 
 // MockTravelRepositoryInterface is a mock of TravelRepositoryInterface interface.
@@ -119,32 +120,32 @@ func (m *MockTravelRepositoryInterface) EXPECT() *MockTravelRepositoryInterfaceM
 }
 
 // CreateTravel mocks base method.
-func (m *MockTravelRepositoryInterface) CreateTravel(travel *models.Travel) error {
+func (m *MockTravelRepositoryInterface) CreateTravel(ctx context.Context, travel *models.Travel) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateTravel", travel)
+	ret := m.ctrl.Call(m, "CreateTravel", ctx, travel)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateTravel indicates an expected call of CreateTravel.
-func (mr *MockTravelRepositoryInterfaceMockRecorder) CreateTravel(travel interface{}) *gomock.Call {
+func (mr *MockTravelRepositoryInterfaceMockRecorder) CreateTravel(ctx, travel interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTravel", reflect.TypeOf((*MockTravelRepositoryInterface)(nil).CreateTravel), travel)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTravel", reflect.TypeOf((*MockTravelRepositoryInterface)(nil).CreateTravel), ctx, travel)
 }
 
 // GetTravelByID mocks base method.
-func (m *MockTravelRepositoryInterface) GetTravelByID(travelID uint) (*models.Travel, error) {
+func (m *MockTravelRepositoryInterface) GetTravelByID(ctx context.Context, travelID uint) (*models.Travel, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetTravelByID", travelID)
+	ret := m.ctrl.Call(m, "GetTravelByID", ctx, travelID)
 	ret0, _ := ret[0].(*models.Travel)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetTravelByID indicates an expected call of GetTravelByID.
-func (mr *MockTravelRepositoryInterfaceMockRecorder) GetTravelByID(travelID interface{}) *gomock.Call {
+func (mr *MockTravelRepositoryInterfaceMockRecorder) GetTravelByID(ctx, travelID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTravelByID", reflect.TypeOf((*MockTravelRepositoryInterface)(nil).GetTravelByID), travelID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTravelByID", reflect.TypeOf((*MockTravelRepositoryInterface)(nil).GetTravelByID), ctx, travelID)
 }
 
 // MockExpenseRepositoryInterface is a mock of ExpenseRepositoryInterface interface.
@@ -171,150 +172,150 @@ func (m *MockExpenseRepositoryInterface) EXPECT() *MockExpenseRepositoryInterfac
 }
 
 // CreateExpense mocks base method.
-func (m *MockExpenseRepositoryInterface) CreateExpense(expense *models.Expense) error {
+func (m *MockExpenseRepositoryInterface) CreateExpense(ctx context.Context, expense *models.Expense) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateExpense", expense)
+	ret := m.ctrl.Call(m, "CreateExpense", ctx, expense)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateExpense indicates an expected call of CreateExpense.
-func (mr *MockExpenseRepositoryInterfaceMockRecorder) CreateExpense(expense interface{}) *gomock.Call {
+func (mr *MockExpenseRepositoryInterfaceMockRecorder) CreateExpense(ctx, expense interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateExpense", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).CreateExpense), expense)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateExpense", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).CreateExpense), ctx, expense)
 }
 
 // DeleteExpense mocks base method.
-func (m *MockExpenseRepositoryInterface) DeleteExpense(id uint) error {
+func (m *MockExpenseRepositoryInterface) DeleteExpense(ctx context.Context, id uint) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteExpense", id)
+	ret := m.ctrl.Call(m, "DeleteExpense", ctx, id)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteExpense indicates an expected call of DeleteExpense.
-func (mr *MockExpenseRepositoryInterfaceMockRecorder) DeleteExpense(id interface{}) *gomock.Call {
+func (mr *MockExpenseRepositoryInterfaceMockRecorder) DeleteExpense(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteExpense", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).DeleteExpense), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteExpense", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).DeleteExpense), ctx, id)
 }
 
 // ExistsByCategoryID mocks base method.
-func (m *MockExpenseRepositoryInterface) ExistsByCategoryID(categoryID uint) (bool, error) {
+func (m *MockExpenseRepositoryInterface) ExistsByCategoryID(ctx context.Context, categoryID uint) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ExistsByCategoryID", categoryID)
+	ret := m.ctrl.Call(m, "ExistsByCategoryID", ctx, categoryID)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ExistsByCategoryID indicates an expected call of ExistsByCategoryID.
-func (mr *MockExpenseRepositoryInterfaceMockRecorder) ExistsByCategoryID(categoryID interface{}) *gomock.Call {
+func (mr *MockExpenseRepositoryInterfaceMockRecorder) ExistsByCategoryID(ctx, categoryID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExistsByCategoryID", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).ExistsByCategoryID), categoryID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExistsByCategoryID", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).ExistsByCategoryID), ctx, categoryID)
 }
 
 // GetExpenseByID mocks base method.
-func (m *MockExpenseRepositoryInterface) GetExpenseByID(expenseID uint) (*models.Expense, error) {
+func (m *MockExpenseRepositoryInterface) GetExpenseByID(ctx context.Context, expenseID uint) (*models.Expense, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetExpenseByID", expenseID)
+	ret := m.ctrl.Call(m, "GetExpenseByID", ctx, expenseID)
 	ret0, _ := ret[0].(*models.Expense)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetExpenseByID indicates an expected call of GetExpenseByID.
-func (mr *MockExpenseRepositoryInterfaceMockRecorder) GetExpenseByID(expenseID interface{}) *gomock.Call {
+func (mr *MockExpenseRepositoryInterfaceMockRecorder) GetExpenseByID(ctx, expenseID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExpenseByID", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).GetExpenseByID), expenseID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExpenseByID", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).GetExpenseByID), ctx, expenseID)
 }
 
 // GetExpensesByUserID mocks base method.
-func (m *MockExpenseRepositoryInterface) GetExpensesByUserID(id uint) ([]models.Expense, error) {
+func (m *MockExpenseRepositoryInterface) GetExpensesByUserID(ctx context.Context, id uint) ([]models.Expense, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetExpensesByUserID", id)
+	ret := m.ctrl.Call(m, "GetExpensesByUserID", ctx, id)
 	ret0, _ := ret[0].([]models.Expense)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetExpensesByUserID indicates an expected call of GetExpensesByUserID.
-func (mr *MockExpenseRepositoryInterfaceMockRecorder) GetExpensesByUserID(id interface{}) *gomock.Call {
+func (mr *MockExpenseRepositoryInterfaceMockRecorder) GetExpensesByUserID(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExpensesByUserID", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).GetExpensesByUserID), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExpensesByUserID", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).GetExpensesByUserID), ctx, id)
 }
 
 // GetExpensesByUserTimeAndCategory mocks base method.
-func (m *MockExpenseRepositoryInterface) GetExpensesByUserTimeAndCategory(filter repository.ExpenseFilter) ([]models.Expense, error) {
+func (m *MockExpenseRepositoryInterface) GetExpensesByUserTimeAndCategory(ctx context.Context, filter repository.ExpenseFilter) ([]models.Expense, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetExpensesByUserTimeAndCategory", filter)
+	ret := m.ctrl.Call(m, "GetExpensesByUserTimeAndCategory", ctx, filter)
 	ret0, _ := ret[0].([]models.Expense)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetExpensesByUserTimeAndCategory indicates an expected call of GetExpensesByUserTimeAndCategory.
-func (mr *MockExpenseRepositoryInterfaceMockRecorder) GetExpensesByUserTimeAndCategory(filter interface{}) *gomock.Call {
+func (mr *MockExpenseRepositoryInterfaceMockRecorder) GetExpensesByUserTimeAndCategory(ctx, filter interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExpensesByUserTimeAndCategory", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).GetExpensesByUserTimeAndCategory), filter)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExpensesByUserTimeAndCategory", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).GetExpensesByUserTimeAndCategory), ctx, filter)
 }
 
 // SumByCategory mocks base method.
-func (m *MockExpenseRepositoryInterface) SumByCategory(userID, travelID uint, from, to *time.Time) (map[string]float64, error) {
+func (m *MockExpenseRepositoryInterface) SumByCategory(ctx context.Context, userID, travelID uint, from, to *time.Time) (map[string]float64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SumByCategory", userID, travelID, from, to)
+	ret := m.ctrl.Call(m, "SumByCategory", ctx, userID, travelID, from, to)
 	ret0, _ := ret[0].(map[string]float64)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SumByCategory indicates an expected call of SumByCategory.
-func (mr *MockExpenseRepositoryInterfaceMockRecorder) SumByCategory(userID, travelID, from, to interface{}) *gomock.Call {
+func (mr *MockExpenseRepositoryInterfaceMockRecorder) SumByCategory(ctx, userID, travelID, from, to interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SumByCategory", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).SumByCategory), userID, travelID, from, to)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SumByCategory", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).SumByCategory), ctx, userID, travelID, from, to)
 }
 
 // SumByDay mocks base method.
-func (m *MockExpenseRepositoryInterface) SumByDay(userID, travelID uint, from, to *time.Time) (map[string]float64, error) {
+func (m *MockExpenseRepositoryInterface) SumByDay(ctx context.Context, userID, travelID uint, from, to *time.Time) (map[string]float64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SumByDay", userID, travelID, from, to)
+	ret := m.ctrl.Call(m, "SumByDay", ctx, userID, travelID, from, to)
 	ret0, _ := ret[0].(map[string]float64)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SumByDay indicates an expected call of SumByDay.
-func (mr *MockExpenseRepositoryInterfaceMockRecorder) SumByDay(userID, travelID, from, to interface{}) *gomock.Call {
+func (mr *MockExpenseRepositoryInterfaceMockRecorder) SumByDay(ctx, userID, travelID, from, to interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SumByDay", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).SumByDay), userID, travelID, from, to)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SumByDay", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).SumByDay), ctx, userID, travelID, from, to)
 }
 
 // TotalSum mocks base method.
-func (m *MockExpenseRepositoryInterface) TotalSum(userID, travelID uint, from, to *time.Time) (float64, error) {
+func (m *MockExpenseRepositoryInterface) TotalSum(ctx context.Context, userID, travelID uint, from, to *time.Time) (float64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "TotalSum", userID, travelID, from, to)
+	ret := m.ctrl.Call(m, "TotalSum", ctx, userID, travelID, from, to)
 	ret0, _ := ret[0].(float64)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // TotalSum indicates an expected call of TotalSum.
-func (mr *MockExpenseRepositoryInterfaceMockRecorder) TotalSum(userID, travelID, from, to interface{}) *gomock.Call {
+func (mr *MockExpenseRepositoryInterfaceMockRecorder) TotalSum(ctx, userID, travelID, from, to interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TotalSum", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).TotalSum), userID, travelID, from, to)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TotalSum", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).TotalSum), ctx, userID, travelID, from, to)
 }
 
 // UpdateExpense mocks base method.
-func (m *MockExpenseRepositoryInterface) UpdateExpense(expense *models.Expense) error {
+func (m *MockExpenseRepositoryInterface) UpdateExpense(ctx context.Context, expense *models.Expense) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateExpense", expense)
+	ret := m.ctrl.Call(m, "UpdateExpense", ctx, expense)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateExpense indicates an expected call of UpdateExpense.
-func (mr *MockExpenseRepositoryInterfaceMockRecorder) UpdateExpense(expense interface{}) *gomock.Call {
+func (mr *MockExpenseRepositoryInterfaceMockRecorder) UpdateExpense(ctx, expense interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateExpense", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).UpdateExpense), expense)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateExpense", reflect.TypeOf((*MockExpenseRepositoryInterface)(nil).UpdateExpense), ctx, expense)
 }
 
 // MockCategoryRepositoryInterface is a mock of CategoryRepositoryInterface interface.
@@ -341,74 +342,74 @@ func (m *MockCategoryRepositoryInterface) EXPECT() *MockCategoryRepositoryInterf
 }
 
 // CreateCategory mocks base method.
-func (m *MockCategoryRepositoryInterface) CreateCategory(category *models.Category) error {
+func (m *MockCategoryRepositoryInterface) CreateCategory(ctx context.Context, category *models.Category) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateCategory", category)
+	ret := m.ctrl.Call(m, "CreateCategory", ctx, category)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateCategory indicates an expected call of CreateCategory.
-func (mr *MockCategoryRepositoryInterfaceMockRecorder) CreateCategory(category interface{}) *gomock.Call {
+func (mr *MockCategoryRepositoryInterfaceMockRecorder) CreateCategory(ctx, category interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCategory", reflect.TypeOf((*MockCategoryRepositoryInterface)(nil).CreateCategory), category)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCategory", reflect.TypeOf((*MockCategoryRepositoryInterface)(nil).CreateCategory), ctx, category)
 }
 
 // DeleteCategory mocks base method.
-func (m *MockCategoryRepositoryInterface) DeleteCategory(categoryID uint) error {
+func (m *MockCategoryRepositoryInterface) DeleteCategory(ctx context.Context, categoryID uint) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteCategory", categoryID)
+	ret := m.ctrl.Call(m, "DeleteCategory", ctx, categoryID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteCategory indicates an expected call of DeleteCategory.
-func (mr *MockCategoryRepositoryInterfaceMockRecorder) DeleteCategory(categoryID interface{}) *gomock.Call {
+func (mr *MockCategoryRepositoryInterfaceMockRecorder) DeleteCategory(ctx, categoryID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCategory", reflect.TypeOf((*MockCategoryRepositoryInterface)(nil).DeleteCategory), categoryID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCategory", reflect.TypeOf((*MockCategoryRepositoryInterface)(nil).DeleteCategory), ctx, categoryID)
 }
 
 // GetAllCategories mocks base method.
-func (m *MockCategoryRepositoryInterface) GetAllCategories(userID uint) ([]models.Category, error) {
+func (m *MockCategoryRepositoryInterface) GetAllCategories(ctx context.Context, userID uint) ([]models.Category, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllCategories", userID)
+	ret := m.ctrl.Call(m, "GetAllCategories", ctx, userID)
 	ret0, _ := ret[0].([]models.Category)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllCategories indicates an expected call of GetAllCategories.
-func (mr *MockCategoryRepositoryInterfaceMockRecorder) GetAllCategories(userID interface{}) *gomock.Call {
+func (mr *MockCategoryRepositoryInterfaceMockRecorder) GetAllCategories(ctx, userID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllCategories", reflect.TypeOf((*MockCategoryRepositoryInterface)(nil).GetAllCategories), userID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllCategories", reflect.TypeOf((*MockCategoryRepositoryInterface)(nil).GetAllCategories), ctx, userID)
 }
 
 // GetCategoryByID mocks base method.
-func (m *MockCategoryRepositoryInterface) GetCategoryByID(id uint) (*models.Category, error) {
+func (m *MockCategoryRepositoryInterface) GetCategoryByID(ctx context.Context, id uint) (*models.Category, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCategoryByID", id)
+	ret := m.ctrl.Call(m, "GetCategoryByID", ctx, id)
 	ret0, _ := ret[0].(*models.Category)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetCategoryByID indicates an expected call of GetCategoryByID.
-func (mr *MockCategoryRepositoryInterfaceMockRecorder) GetCategoryByID(id interface{}) *gomock.Call {
+func (mr *MockCategoryRepositoryInterfaceMockRecorder) GetCategoryByID(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCategoryByID", reflect.TypeOf((*MockCategoryRepositoryInterface)(nil).GetCategoryByID), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCategoryByID", reflect.TypeOf((*MockCategoryRepositoryInterface)(nil).GetCategoryByID), ctx, id)
 }
 
 // GetCategoryByName mocks base method.
-func (m *MockCategoryRepositoryInterface) GetCategoryByName(name string) (*models.Category, error) {
+func (m *MockCategoryRepositoryInterface) GetCategoryByName(ctx context.Context, name string) (*models.Category, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCategoryByName", name)
+	ret := m.ctrl.Call(m, "GetCategoryByName", ctx, name)
 	ret0, _ := ret[0].(*models.Category)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetCategoryByName indicates an expected call of GetCategoryByName.
-func (mr *MockCategoryRepositoryInterfaceMockRecorder) GetCategoryByName(name interface{}) *gomock.Call {
+func (mr *MockCategoryRepositoryInterfaceMockRecorder) GetCategoryByName(ctx, name interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCategoryByName", reflect.TypeOf((*MockCategoryRepositoryInterface)(nil).GetCategoryByName), name)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCategoryByName", reflect.TypeOf((*MockCategoryRepositoryInterface)(nil).GetCategoryByName), ctx, name)
 }

@@ -39,7 +39,8 @@ func (ctrl *UserController) Register(c *gin.Context) {
 		})
 		return
 	}
-	response, err := ctrl.userService.Register(req.Login, req.Password)
+	ctx := c.Request.Context()
+	response, err := ctrl.userService.Register(ctx, req.Login, req.Password)
 	if err != nil {
 		switch err {
 		case services.ErrUserAlreadyExists:
@@ -84,8 +85,8 @@ func (ctrl *UserController) Login(c *gin.Context) {
 		})
 		return
 	}
-
-	response, err := ctrl.userService.Login(req.Login, req.Password)
+	ctx := c.Request.Context()
+	response, err := ctrl.userService.Login(ctx, req.Login, req.Password)
 	if err != nil {
 		switch err {
 		case services.ErrUserNotFound, services.ErrInvalidPassword:

@@ -50,14 +50,15 @@ func (ctrl *ExpenseController) CreateExpense(c *gin.Context) {
 		return
 	}
 	user := c.MustGet("user").(models.User)
+	ctx := c.Request.Context()
 
-	category, err := ctrl.categoryService.GetCategoryByName(req.Category)
+	category, err := ctrl.categoryService.GetCategoryByName(ctx, req.Category)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "category not found or unavailable"})
 		return
 	}
 
-	travel, err := ctrl.travelService.GetTravelByID(req.TravelID)
+	travel, err := ctrl.travelService.GetTravelByID(ctx, req.TravelID)
 	if err != nil || travel.UserID != user.ID {
 		c.JSON(http.StatusForbidden, gin.H{"error": "invalid travel"})
 		return
@@ -78,7 +79,7 @@ func (ctrl *ExpenseController) CreateExpense(c *gin.Context) {
 		Description: req.Comment,
 	}
 
-	if err := ctrl.expenseService.CreateExpense(expense); err != nil {
+	if err := ctrl.expenseService.CreateExpense(ctx, expense); err != nil {
 		log.Printf("Failed to create expense for user %d: %v\n", user.ID, err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
@@ -112,6 +113,7 @@ func (ctrl *ExpenseController) GetExpensesByUserID(c *gin.Context) {
 		return
 	}
 	user := c.MustGet("user").(models.User)
+	ctx := c.Request.Context()
 
 	var fromDate, toDate *time.Time
 	if req.From != "" {
@@ -133,7 +135,7 @@ func (ctrl *ExpenseController) GetExpensesByUserID(c *gin.Context) {
 
 	var categoryID *uint
 	if req.Category != "" {
-		cat, err := ctrl.categoryService.GetCategoryByName(req.Category)
+		cat, err := ctrl.categoryService.GetCategoryByName(ctx, req.Category)
 		if err != nil {
 			c.JSON(http.StatusNotFound, gin.H{"error": "category not found"})
 			return
@@ -141,7 +143,7 @@ func (ctrl *ExpenseController) GetExpensesByUserID(c *gin.Context) {
 		categoryID = &cat.ID
 	}
 
-	expenses, err := ctrl.expenseService.GetExpensesByUserTimeAndCategory(user.ID, fromDate, toDate, categoryID)
+	expenses, err := ctrl.expenseService.GetExpensesByUserTimeAndCategory(ctx, user.ID, fromDate, toDate, categoryID)
 	if err != nil {
 		log.Printf("Failed to get expenses for user %d: %v\n", user.ID, err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
@@ -150,7 +152,7 @@ func (ctrl *ExpenseController) GetExpensesByUserID(c *gin.Context) {
 
 	expenseResponses := make([]dto.ExpenseResponse, 0, len(expenses))
 	for _, e := range expenses {
-		category, _ := ctrl.categoryService.GetCategoryByID(e.CategoryID)
+		category, _ := ctrl.categoryService.GetCategoryByID(ctx, e.CategoryID)
 		expenseResponses = append(expenseResponses, dto.ExpenseResponse{
 			ID:       fmt.Sprintf("%v", e.ID),
 			Category: category.Name,
@@ -193,7 +195,8 @@ func (ctrl *ExpenseController) UpdateExpenseByUserID(c *gin.Context) {
 	}
 
 	user := c.MustGet("user").(models.User)
-	expense, err := ctrl.expenseService.GetExpenseByID(uint(expenseID))
+	ctx := c.Request.Context()
+	expense, err := ctrl.expenseService.GetExpenseByID(ctx, uint(expenseID))
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "expense not found"})
 		return
@@ -204,7 +207,7 @@ func (ctrl *ExpenseController) UpdateExpenseByUserID(c *gin.Context) {
 		return
 	}
 
-	category, err := ctrl.categoryService.GetCategoryByName(req.Category)
+	category, err := ctrl.categoryService.GetCategoryByName(ctx, req.Category)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "category not found"})
 		return
@@ -221,7 +224,7 @@ func (ctrl *ExpenseController) UpdateExpenseByUserID(c *gin.Context) {
 	expense.CreatedAt = expenseDate
 	expense.Description = req.Comment
 
-	if err := ctrl.expenseService.UpdateExpense(expense); err != nil {
+	if err := ctrl.expenseService.UpdateExpense(ctx, expense); err != nil {
 		log.Printf("Failed to update expense %d: %v\n", expense.ID, err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
@@ -256,8 +259,9 @@ func (ctrl *ExpenseController) DeleteExpenseByID(c *gin.Context) {
 	}
 
 	user := c.MustGet("user").(models.User)
+	ctx := c.Request.Context()
 
-	expense, err := ctrl.expenseService.GetExpenseByID(uint(expenseID))
+	expense, err := ctrl.expenseService.GetExpenseByID(ctx, uint(expenseID))
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "expense not found"})
 		return
@@ -268,7 +272,7 @@ func (ctrl *ExpenseController) DeleteExpenseByID(c *gin.Context) {
 		return
 	}
 
-	if err := ctrl.expenseService.DeleteExpense(uint(expenseID)); err != nil {
+	if err := ctrl.expenseService.DeleteExpense(ctx, uint(expenseID)); err != nil {
 		log.Printf("Failed to delete expense %d: %v\n", expense.ID, err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
 		return
